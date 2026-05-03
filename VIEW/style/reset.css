@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-size: 16px;
+    color: var(--while--00);
+    /* font-family: Poppins-Medium; */
+    font-weight: 600;
+}
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+:root {
+    --while--00: #fff;
+    --while--00--07: rgba(255, 255, 255, 0.7);
+    --purple--10: #1D1932;
+    --purple--20: #131129;
+    --purple--60: #6F4FF2;
+    --violet--10: rgba(111, 79, 242, 0.50);
+    --grey--20: #D6DBDE;
+    --grey--40: #65646A;
+    --grey--50: #68676E;
+    --grey--60: #6C7AA0;
+    --red--30: #DC3546;
+    --green--30: #50BB25;
+    --yellow--30: #F9D62C;
+}

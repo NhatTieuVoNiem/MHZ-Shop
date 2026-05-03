@@ -1,0 +1,239 @@
+/* ── nav-menu sidebar ── */
+
+.nav-menu {
+  width: 72px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #1a1a2e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 8px;
+  z-index: 100;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.nav-menu:hover {
+  width: 200px;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    width 0.25s ease;
+}
+
+/* ── menu list reset ── */
+
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  width: 100%;
+}
+
+.menu li {
+  list-style: none;
+  width: 100%;
+}
+
+/* ── icon links ── */
+
+.menu a,
+.nav-menu .user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  color: #6b7280;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.menu a:hover,
+.nav-menu .user:hover {
+  background-color: #252545;
+  color: #ffffff;
+}
+
+.menu a.active {
+  background-color: #7c3aed;
+  color: #ffffff;
+}
+
+/* ── svg icon size ── */
+
+.menu a svg,
+.nav-menu .user svg {
+  width: 28px;
+  height: 28px;
+  min-width: 20px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── label text ── */
+
+.menu a .nav-label,
+.nav-menu .user .nav-label {
+  font-size: 14px;
+  font-weight: 500;
+
+  opacity: 0;
+  transform: translateX(-8px);
+
+  width: 0;
+  overflow: hidden;
+  visibility: hidden;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    width 0.25s ease;
+}
+
+.nav-menu:hover .menu a .nav-label,
+.nav-menu:hover .user .nav-label {
+  opacity: 1;
+  transform: translateX(0);
+
+  width: auto;
+  visibility: visible;
+}
+
+/* ── logo ── */
+
+.nav-menu .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 14px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.nav-menu .logo img {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  object-fit: contain;
+}
+
+/* ── user / logout ── */
+
+.nav-menu .user {
+  margin-top: auto;
+  color: #6b7280;
+  padding: 0 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── đẩy content ra khỏi sidebar ── */
+
+.content {
+  margin-left: 72px;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 1280px) {
+  .nav-menu {
+    width: 60px;
+  }
+
+  .nav-menu:hover {
+    width: 160px;
+  }
+
+  .content {
+    margin-left: 60px;
+  }
+
+  .nav-menu:hover~.content {
+    margin-left: 160px;
+  }
+
+  /* icon nhỏ lại chút */
+  .menu a svg,
+  .nav-menu .user svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    width: 100%;
+    height: 60px;
+
+    top: auto;
+    bottom: 0;
+    left: 0;
+
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    padding: 0;
+  }
+
+  /* bỏ hover mở rộng */
+  .nav-menu:hover {
+    width: 100%;
+  }
+
+  /* menu nằm ngang */
+  .menu {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+  }
+
+  .menu li {
+    width: auto;
+  }
+
+  .menu a {
+    justify-content: center;
+    padding: 0;
+    height: 60px;
+  }
+
+  /* Ẩn label */
+  .nav-label {
+    display: none !important;
+  }
+
+  /* Ẩn logo */
+  .nav-menu .logo {
+    display: none;
+  }
+
+  /* Ẩn logout */
+  .nav-menu .user {
+    display: none;
+  }
+
+  /* reset content */
+  .content {
+    margin-left: 0;
+    margin-bottom: 60px;
+    /* tránh bị che */
+  }
+}
