@@ -1,0 +1,121 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: url('../assets/images/Copilot_20260504_143121.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  background: rgba(25, 25, 40, 0.95);
+  border: 1px solid #6c63ff;
+  border-radius: 16px;
+  padding: 50px 40px;
+  width: 380px;
+  box-shadow: 0 0 25px rgba(108, 99, 255, 0.7);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease;
+}
+
+.login-container:hover {
+  transform: translateY(-5px);
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #b19fff;
+  font-weight: 600;
+}
+
+.login-container p {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #bbb;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #1f1f2f;
+  color: #fff;
+  outline: none;
+  font-size: 15px;
+  transition: box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+  box-shadow: 0 0 12px #6c63ff;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #6c63ff, #8a7fff, #b19fff);
+  background-size: 200% 200%;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  animation: gradientMove 6s linear infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.login-btn:hover {
+  box-shadow: 0 0 20px #b19fff;
+  transform: scale(1.05);
+}
+
+.social-login {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.social-login button {
+  background: transparent;
+  border: 1px solid #6c63ff;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  margin: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.social-login button:hover {
+  background: #6c63ff;
+  box-shadow: 0 0 12px #6c63ff;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 25px;
+  color: #aaa;
+}
+
+.register-link a {
+  color: #b19fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
