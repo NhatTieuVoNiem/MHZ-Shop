@@ -30,7 +30,7 @@ define('BASE_URL', '../');
             <!-- Form gửi dữ liệu đến PHP -->
             <form action="../../CONTROLLER/controller_login.php" method="POST">
                 <div class="input-group">
-                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="text" name="username" placeholder="Tên tài khoản" required>
                 </div>
                 <div class="input-group">
                     <input type="password" name="password" placeholder="Mật khẩu" required>

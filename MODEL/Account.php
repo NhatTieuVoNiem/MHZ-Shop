@@ -33,5 +33,26 @@ class Account  {
         $stmt->bind_param("i", $account_id);
         return $stmt->execute();
     }
+
+        // Tìm account theo email
+    public function findByEmail(string $email) {
+        $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE email = ? LIMIT 1");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+    // Tìm account theo username
+    public function findByUsername(string $username) {
+
+        $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE username = ? LIMIT 1");
+        $stmt->bind_param("s", $username);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        return $result->fetch_assoc();
+    }
 }
 ?>

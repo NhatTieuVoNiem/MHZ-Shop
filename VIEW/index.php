@@ -28,6 +28,7 @@ define('BASE_URL', './');
       <?php require BASE_PATH . '/includes/header.php'; ?>
 
       <main class="body">
+      
         <?php require BASE_PATH . '/includes/sections/top-section.php'; ?>
         <?php require BASE_PATH . '/includes/sections/trending-section.php'; ?>
         <?php require BASE_PATH . '/includes/sections/bids-section.php'; ?>
@@ -35,13 +36,13 @@ define('BASE_URL', './');
         <?php require BASE_PATH . '/includes/sections/active-section.php'; ?>
       </main>
 
-       <?php require BASE_PATH . '/includes/footer.php'; ?>
+      <?php require BASE_PATH . '/includes/footer.php'; ?>
     </div>
 
   </div>
-  <script src="<?= BASE_URL ?>js/theme.js"></script>
-  <script src="<?= BASE_URL ?>js/toggle.js"></script>
-   <script src="<?= BASE_URL ?>js/clickLogin.js"></script>
+  <script src="<?= BASE_URL ?>js/theme.js?v=<?= time() ?>"></script>
+  <script src="<?= BASE_URL ?>js/toggle.js?v=<?= time() ?>"></script>
+  <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

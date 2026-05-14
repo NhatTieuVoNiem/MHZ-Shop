@@ -1,0 +1,134 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: url('../assets/images/Copilot_20260504_143121.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+        .register-box{
+            width:430px;
+            background:rgba(15, 15, 35, 0.88);
+            border:1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            border-radius:24px;
+            padding:45px;
+            color:white;
+            box-shadow:0 0 25px rgba(0,0,0,0.4);
+        }
+
+        .register-box h1{
+            text-align:center;
+            margin-bottom:10px;
+            font-size:42px;
+            color:#c4b5fd;
+        }
+
+        .register-box p{
+            text-align:center;
+            color:#cbd5e1;
+            margin-bottom:35px;
+            font-size:18px;
+        }
+
+        .input-box{
+            margin-bottom:22px;
+        }
+
+        .input-box input{
+            width:100%;
+            padding:16px 18px;
+            border:none;
+            outline:none;
+            border-radius:14px;
+            background:#f1f5f9;
+            font-size:16px;
+        }
+
+        .input-box input:focus{
+            border:2px solid #8b5cf6;
+        }
+
+        .btn{
+            width:100%;
+            padding:15px;
+            border:none;
+            border-radius:14px;
+            background:linear-gradient(90deg,#7c3aed,#a78bfa);
+            color:white;
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+            margin-top:8px;
+        }
+
+        .btn:hover{
+            transform:translateY(-2px);
+            opacity:0.9;
+        }
+
+        .or{
+            text-align:center;
+            margin:28px 0 22px;
+            color:#d1d5db;
+            font-size:18px;
+        }
+
+        .social-login{
+            display:flex;
+            justify-content:center;
+            gap:16px;
+        }
+
+        .social-login button{
+            padding:12px 24px;
+            border-radius:12px;
+            border:1px solid #8b5cf6;
+            background:transparent;
+            color:white;
+            cursor:pointer;
+            transition:0.3s;
+            font-size:15px;
+        }
+
+        .social-login button:hover{
+            background:#7c3aed;
+        }
+
+        .bottom-text{
+            text-align:center;
+            margin-top:28px;
+            color:#d1d5db;
+            font-size:17px;
+        }
+
+        .bottom-text a{
+            color:#a78bfa;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        .bottom-text a:hover{
+            text-decoration:underline;
+        }
+
+        @media(max-width:768px){
+
+            .sidebar{
+                display:none;
+            }
+
+            .register-box{
+                width:90%;
+                padding:35px 25px;
+            }
+
+            .register-box h1{
+                font-size:32px;
+            }
+        }

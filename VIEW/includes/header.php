@@ -62,13 +62,13 @@
 
         </button>
         <div class="auth-modal">
-  <div class="auth-box">
-    <h3>Xin chào 👋</h3>
-    <p>Vui lòng đăng nhập để tiếp tục</p>
+            <div class="auth-box">
+                <h3>Xin chào 👋</h3>
+                <p>Vui lòng đăng nhập để tiếp tục</p>
 
-    <a href="<?= BASE_URL ?>page/login.php" class="btn login">Đăng nhập</a>
-    <a href="<?= BASE_URL ?>page/register.php" class="btn register">Đăng ký</a>
-  </div>
-</div>
+                <a href="<?= BASE_URL ?>page/login.php" class="btn login">Đăng nhập</a>
+                <a href="<?= BASE_URL ?>page/register.php" class="btn register">Đăng ký</a>
+            </div>
+        </div>
     </div>
 </header>
