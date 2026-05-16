@@ -18,29 +18,23 @@ define('BASE_URL', '../');
   <link rel="stylesheet" href="<?= BASE_URL ?>style/header.css?v=<?= time() ?>" />
   <link rel="stylesheet" href="<?= BASE_URL ?>style/footer.css?v=<?= time() ?>" />
   <link rel="stylesheet" href="<?= BASE_URL ?>style/nav-menu.css?v=<?= time() ?>" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>style/products.css?v=<?= time() ?>" />
 </head>
 
 <body>
   <div class="wrapper">
     <?php require '../includes/nav-menu.php'; ?>
     <div class="content">
-      <?php require '../includes/header.php'; ?>
+  
+<?php require '../includes/header.php'; ?>
 
-      <!-- <main class="body">
-        <?php require BASE_PATH . '/../includes/sections/top-section.php'; ?>
-        <?php require BASE_PATH . '/../includes/sections/trending-section.php'; ?>
-        <?php require BASE_PATH . '/../includes/sections/bids-section.php'; ?>
-        <?php require BASE_PATH . '/../includes/sections/recent-section.php'; ?>
-        <?php require BASE_PATH . '/../includes/sections/active-section.php'; ?>
-      </main> -->
-
-       <?php require '../includes/footer.php'; ?>
+      <?php require '../includes/footer.php'; ?>
     </div>
 
   </div>
-  <script src="<?= BASE_URL ?>js/theme.js"></script>
-  <script src="<?= BASE_URL ?>js/toggle.js"></script>
-  <script src="<?= BASE_URL ?>js/clickLogin.js"></script>
+   <script src="<?= BASE_URL ?>js/theme.js?v=<?= time() ?>"></script>
+  <script src="<?= BASE_URL ?>js/toggle.js?v=<?= time() ?>"></script>
+  <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

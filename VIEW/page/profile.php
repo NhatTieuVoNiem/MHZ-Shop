@@ -38,9 +38,9 @@ define('BASE_URL', '../');
     </div>
 
   </div>
-  <script src="<?= BASE_URL ?>js/theme.js"></script>
-  <script src="<?= BASE_URL ?>js/toggle.js"></script>
-  <script src="<?= BASE_URL ?>js/clickLogin.js"></script>
+  <script src="<?= BASE_URL ?>js/theme.js?v=<?= time() ?>"></script>
+  <script src="<?= BASE_URL ?>js/toggle.js?v=<?= time() ?>"></script>
+  <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

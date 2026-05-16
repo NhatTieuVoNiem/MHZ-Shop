@@ -24,7 +24,7 @@
   </li>
 
   <li role="none">
-    <a href="<?= BASE_URL ?>page/cart.php" role="menuitem" aria-label="Giỏ hàng">
+    <a href="<?= BASE_URL ?>page/cart.php" role="menuitem" aria-label="Giỏ hàng" class="login-popup">
        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-9.8-3h11.2c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 22 6H5.21L4.27 4H1v2h2l3.6 7.59L5.25 16c-.16.28-.25.61-.25.95C5 18.1 6.9 19 7 19h13v-2H7.42a.13.13 0 0 1-.12-.13l.03-.14.9-1.73z"/>
         </svg>
@@ -42,7 +42,7 @@
   </li>
 
   <li role="none">
-    <a href="<?= BASE_URL ?>page/profile.php" role="menuitem" aria-label="Thông tin cá nhân">
+    <a href="<?= BASE_URL ?>page/profile.php" role="menuitem" aria-label="Thông tin cá nhân" class="login-popup">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 2A10.13 10.13 0 0 0 2 12a10 10 0 0 0 4 7.92V20h.1a9.7 9.7 0 0 0 11.8 0h.1v-.08A10 10 0 0 0 22 12 10.13 10.13 0 0 0 12 2zM8.07 18.93A3 3 0 0 1 11 16.57h2a3 3 0 0 1 2.93 2.36 7.75 7.75 0 0 1-7.86 0zm9.54-1.29A5 5 0 0 0 13 14.57h-2a5 5 0 0 0-4.61 3.07A8 8 0 0 1 4 12a8.1 8.1 0 0 1 8-8 8.1 8.1 0 0 1 8 8 8 8 0 0 1-2.39 5.64z"/>
         <path d="M12 6a3.91 3.91 0 0 0-4 4 3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4 3.91 3.91 0 0 0-4-4zm0 6a1.91 1.91 0 0 1-2-2 1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2 1.91 1.91 0 0 1-2 2z"/>

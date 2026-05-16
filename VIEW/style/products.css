@@ -1,0 +1,209 @@
+/* Thanh lọc sản phẩm */
+.filter-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  padding: 25px;
+  margin-bottom: 40px;
+
+  background: #15123A;
+  border-radius: 20px;
+  color: #fff;
+  position: sticky;  
+  top: 0;             
+  z-index: 1000;
+}
+
+.filter-item {
+  flex: 1;
+  min-width: 180px;
+}
+
+.filter-input,
+.filter-select {
+  width: 100%;
+  padding: 14px 18px;
+
+  border: none;
+  outline: none;
+
+  border-radius: 12px;
+
+  background: #211C52;
+  color: #fff;
+
+  font-size: 15px;
+}
+
+.filter-input::placeholder {
+  color: #9CA3AF;
+}
+
+.filter-select {
+  cursor: pointer;
+}
+
+.filter-btn {
+  padding: 14px 30px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(90deg, #7C3AED, #EC4899);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.filter-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Khối section cho từng danh mục */
+/* Section chung */
+.category-section {
+    flex-direction: column;
+  margin: 40px auto;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.category-section .section__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.category-section .section__head--title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.category-section .view-more {
+  font-size: 0.95rem;
+  color: #7C3AED;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.category-section .view-more:hover {
+  color: #EC4899;
+}
+
+/* Lưới sản phẩm */
+.category-section .section__content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* Card sản phẩm */
+.section__content--card {
+  background: #1E1B3A;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #fff;
+}
+
+.section__content--card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+}
+.content__card--banner{
+    padding: 10px;
+}
+.content__card--banner img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Nội dung card */
+.content__card--info {
+  padding: 16px;
+}
+
+.content__card--info h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.fames {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 14px;
+}
+
+.fames__line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* Nút xem chi tiết */
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  background: linear-gradient(90deg, #7C3AED, #EC4899);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin: 24px 0;
+      flex-wrap: wrap;
+    }
+    .pagination a,
+    .pagination span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      padding: 0 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .pagination a:hover {
+      background-color: #f0f0f0;
+    }
+    .pagination .active {
+      background-color: #333;
+      color: #fff;
+      border-color: #333;
+      font-weight: bold;
+    }
+    .pagination .disabled {
+      color: #aaa;
+      pointer-events: none;
+      border-color: #eee;
+    }

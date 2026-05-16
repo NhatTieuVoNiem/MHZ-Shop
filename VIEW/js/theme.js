@@ -4,7 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll('.regime button');
   const lightBtn = document.querySelector('[aria-label="Chế độ sáng"]');
   const darkBtn = document.querySelector('[aria-label="Chế độ tối"]');
+ const nav     = document.querySelector('.nav-menu');
+  const content = document.querySelector('.content');
 
+  if (nav && content) {
+    nav.addEventListener('mouseenter', () => {
+      content.style.marginLeft = window.innerWidth <= 1280 ? '160px' : '200px';
+    });
+
+    nav.addEventListener('mouseleave', () => {
+      content.style.marginLeft = window.innerWidth <= 1280 ? '60px' : '72px';
+    });
+  }
   // ===== Load trạng thái đã lưu =====
   const savedTheme = localStorage.getItem("theme");
 

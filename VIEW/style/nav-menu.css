@@ -24,7 +24,13 @@
     transform 0.25s ease,
     width 0.25s ease;
 }
-
+.nav-menu:hover + .content {
+  width: calc(100% - 200px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    width 0.25s ease;
+}
 /* ── menu list reset ── */
 
 .menu {

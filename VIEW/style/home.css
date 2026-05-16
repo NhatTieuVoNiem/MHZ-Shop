@@ -240,7 +240,16 @@
 .section__head--menu>span:first-child {
     background-color: var(--purple--60);
 }
+.view-more{
+    color: #8B5CF6;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
 
+.view-more:hover{
+    color: #6D28D9;
+}
 .section__content {
     width: 100%;
     height: auto;

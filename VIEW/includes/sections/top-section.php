@@ -22,7 +22,7 @@
       </p>
 
       <div class="top-section__left--list-btn">
-        <a href="<?= BASE_URL ?>page/explore.php" class="btn">
+        <a href="<?= BASE_URL ?>page/ranking.php" class="btn">
           Khám phá
         </a>
 
@@ -39,7 +39,8 @@
 
         <img
           src="<?= htmlspecialchars($featuredNFT['thumbnail']) ?>"
-          alt="<?= htmlspecialchars($featuredNFT['product_name']) ?>" />
+          alt="<?= htmlspecialchars($featuredNFT['product_name']) ?>"
+          onerror="this.src='<?= BASE_URL ?>assets/images/Copilot_20260504_143121.png'" />
 
       </figure>
 
@@ -95,7 +96,7 @@
             Xem trước
           </a>
 
-          <a href="<?= BASE_URL ?>page/detail.php?id=<?= $featuredNFT['product_id'] ?>"
+          <a 
             class="btn btn__view--red buy-btn">
             Đặt mua
           </a>
