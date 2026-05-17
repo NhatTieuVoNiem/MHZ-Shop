@@ -61,12 +61,18 @@ $products = $productModel->getTrendingProducts();
               </div>
 
             </div>
-
-            <a
-              href="<?= BASE_URL ?>./page/productsDetails.php?id=<?= $item['product_id'] ?>"
-              class="btn">
-              Xem chi tiết
-            </a>
+<form id="detail-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
+    <input type="hidden" name="action" value="trackView">
+    <input type="hidden" name="product_id" id="detail-product-id" value="">
+    <input type="hidden" name="redirect_url" id="detail-redirect-url" value="">
+</form>
+          <a
+  href="javascript:void(0)"
+  class="btn btn-detail"
+  data-product-id="<?= htmlspecialchars($item['product_id']) ?>"
+  data-detail-url="<?= BASE_URL ?>../VIEW/page/productsDetails.php?id=<?= $item['product_id'] ?>">
+  Xem chi tiết
+</a>
 
           </div>
 

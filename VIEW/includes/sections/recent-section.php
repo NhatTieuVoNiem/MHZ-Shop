@@ -1,75 +1,150 @@
 <?php
-$recentActivities = [
-  ['image' => 'animakid.png',   'name' => 'Papaya', 'action' => 'Purchase by you for 0.05 ETH'],
-  ['image' => 'BlueWhale.png',  'name' => 'Papaya', 'action' => '0.06 ETH Received'],
-  ['image' => 'DigiLab.png',    'name' => 'Papaya', 'action' => 'Started Following you'],
-  ['image' => 'Dotgu.png',      'name' => 'Papaya', 'action' => 'Has been sold for 12.75 ETH'],
-  ['image' => 'GravityOne.png', 'name' => 'Papaya', 'action' => 'Purchase by you for 0.05 ETH'],
-];
 
-$topCreators = [
-  ['id' => 1, 'image' => 'GravityOne.png', 'name' => 'GravityOne', 'items' => 60],
-  ['id' => 2, 'image' => 'Ghiblier.png',   'name' => 'Ghiblier',   'items' => 60],
-  ['id' => 3, 'image' => 'Juanie.png',      'name' => 'Juanie',     'items' => 60],
-  ['id' => 4, 'image' => 'Shroomie.png',    'name' => 'Shroomie',   'items' => 60],
-  ['id' => 5, 'image' => 'RustyRobot.png',  'name' => 'RustyRobot', 'items' => 60],
-  ['id' => 6, 'image' => 'mr fox.png',      'name' => 'Mr Fox',     'items' => 60],
-  ['id' => 7, 'image' => 'Juanie.png',      'name' => 'Juanie',     'items' => 60],
-  ['id' => 8, 'image' => 'RustyRobot.png',  'name' => 'RustyRobot', 'items' => 60],
-];
+require_once("../MODEL/connect.php");
+require_once("../MODEL/Product.php");
+require_once("../MODEL/Account.php");
+
+$productModel = new Product($conn);
+$accountModel = new Account($conn);
+
+/*
+|--------------------------------------------------------------------------
+| Lấy dữ liệu
+|--------------------------------------------------------------------------
+*/
+$recentActivities = $productModel->getRecentActivities(5);
+
+$topCreators = $accountModel->getTopCreators(8);
 ?>
+<section class="recent-section container" aria-label="Recent Activity">
 
-<section class="recent-section container" aria-label="Hoạt động gần đây">
-
+  <!-- RECENT ACTIVITY -->
   <div class="activity">
+
     <div class="activity__head">
       <h3 class="bids__title">Recent Activity</h3>
-      <a href="<?= BASE_URL ?>page/bid.php">See More</a>
+
+      <a href="<?= BASE_URL ?>page/products.php">
+        See More
+      </a>
     </div>
+    <form id="detail-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
+      <input type="hidden" name="action" value="trackView">
+      <input type="hidden" name="product_id" id="detail-product-id" value="">
+      <input type="hidden" name="redirect_url" id="detail-redirect-url" value="">
+    </form>
     <ul class="activity__body">
-      <?php foreach ($recentActivities as $act): ?>
-        <li class="activity__card">
-          <figure class="activity__card--image">
-            <img
-              src="<?= BASE_URL ?>assets/images/home/recentSection/<?= htmlspecialchars($act['image']) ?>"
-              alt="<?= htmlspecialchars($act['name']) ?>"
-            />
-          </figure>
-          <div class="activity__card--text">
-            <div class="activity__card--text-left">
-              <span><?= htmlspecialchars($act['name']) ?></span>
-              <span><?= htmlspecialchars($act['action']) ?></span>
+
+      <?php while ($item = $recentActivities->fetch_assoc()): ?>
+
+        <li class="activity__item">
+          <a
+            href="javascript:void(0)"
+            class="btn activity__card btn-detail"
+            data-product-id="<?= htmlspecialchars($item['product_id']) ?>"
+            data-detail-url="<?= BASE_URL ?>../VIEW/page/productsDetails.php?id=<?= $item['product_id'] ?>">
+            <figure class="activity__card--image">
+
+              <img
+                src="<?= htmlspecialchars($item['thumbnail_url']) ?>"
+                alt="<?= htmlspecialchars($item['product_name']) ?>"
+                onerror="this.src='<?= BASE_URL ?>assets/images/Copilot_20260504_143121.png'">
+
+            </figure>
+
+            <div class="activity__card--text">
+
+              <div class="activity__card--text-left">
+
+                <span>
+                  <?= htmlspecialchars($item['product_name']) ?>
+                </span>
+
+                <span>
+                  Created by <?= htmlspecialchars($item['username']) ?>
+                </span>
+
+              </div>
+
+              <time class="activity__card--text-right">
+
+                <?php
+                $created = strtotime($item['created_at']);
+                $diff = time() - $created;
+
+                if ($diff < 3600) {
+                  echo floor($diff / 60) . " mins ago";
+                } elseif ($diff < 86400) {
+                  echo floor($diff / 3600) . " hours ago";
+                } else {
+                  echo floor($diff / 86400) . " days ago";
+                }
+                ?>
+
+              </time>
+
             </div>
-            <time class="activity__card--text-right" datetime="PT12M">12 mins ago</time>
-          </div>
+          </a>
         </li>
-      <?php endforeach; ?>
+
+      <?php endwhile; ?>
+
     </ul>
+
   </div>
 
+  <!-- TOP CREATORS -->
   <div class="creator">
+
     <div class="creator__head">
       <h3 class="bids__title">Top Creators</h3>
     </div>
+
     <ul class="creator__body">
-      <?php foreach ($topCreators as $creator): ?>
+
+      <?php while ($creator = $topCreators->fetch_assoc()): ?>
+
         <li class="activity__card">
+
           <figure class="activity__card--image">
+
             <img
-              src="<?= BASE_URL ?>assets/images/home/recentSection/<?= htmlspecialchars($creator['image']) ?>"
-              alt="Creator <?= htmlspecialchars($creator['name']) ?>"
-            />
+              src="<?= !empty($creator['avatar_url'])
+                      ? htmlspecialchars($creator['avatar_url'])
+                      : BASE_URL . 'assets/images/default-avatar.png' ?>"
+              alt="<?= htmlspecialchars($creator['username']) ?>"
+              onerror="this.src='<?= BASE_URL ?>assets/images/avatar/avatar.png'">
+
           </figure>
+
           <div class="activity__card--text">
+
             <div class="activity__card--text-left">
-              <span><?= htmlspecialchars($creator['name']) ?></span>
-              <span><?= $creator['items'] ?> Items</span>
+
+              <span>
+                <?= htmlspecialchars($creator['username']) ?>
+              </span>
+
+              <span>
+                <?= $creator['total_items'] ?> Items
+              </span>
+
             </div>
-            <a href="<?= BASE_URL ?>page/creator.php?id=<?= $creator['id'] ?>" class="btn">Follow</a>
+
+            <a
+              href="<?= BASE_URL ?>page/creator.php?id=<?= $creator['account_id'] ?>"
+              class="btn">
+              View
+            </a>
+
           </div>
+
         </li>
-      <?php endforeach; ?>
+
+      <?php endwhile; ?>
+
     </ul>
+
   </div>
 
 </section>

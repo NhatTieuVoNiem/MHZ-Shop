@@ -171,12 +171,18 @@ define('BASE_URL', '../');
                         <a href="#" class="btn-like">
                             Yêu thích
                         </a>
-                        <a
-                            href="<?= htmlspecialchars($product['preview_url']) ?>"
-                            class="btn-view"
-                            target="_blank">
-                            Xem trước
-                        </a>
+                        <form id="preview-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
+    <input type="hidden" name="action" value="trackView">
+    <input type="hidden" name="product_id" id="form-product-id" value="">
+    <input type="hidden" name="redirect_url" id="form-redirect-url" value="">
+</form>
+                      <a
+    href="javascript:void(0)"
+    class="btn-view btn-preview"
+    data-product-id="<?= htmlspecialchars($product['product_id']) ?>"
+    data-preview-url="<?= htmlspecialchars(trim($product['preview_url'])) ?>">
+    Xem trước
+</a>
                     </div>
 
                     <!-- INFO -->
@@ -256,6 +262,7 @@ define('BASE_URL', '../');
     <script src="<?= BASE_URL ?>js/theme.js?v=<?= time() ?>"></script>
     <script src="<?= BASE_URL ?>js/toggle.js?v=<?= time() ?>"></script>
     <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
+     <script src="<?= BASE_URL ?>js/productsView.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

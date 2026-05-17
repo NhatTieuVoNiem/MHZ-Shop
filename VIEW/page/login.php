@@ -22,33 +22,36 @@ define('BASE_URL', '../');
 </head>
 
 <body>
-   <?php require BASE_PATH . '/../includes/nav-menu.php'; ?>
-        <div class="login-container">
-            <h2>Đăng nhập tài khoản NFT</h2>
-            <p>Vui lòng đăng nhập để tiếp tục</p>
+    <?php require BASE_PATH . '/../includes/nav-menu.php'; ?>
+    <div class="login-container">
+        <h2>Đăng nhập tài khoản NFT</h2>
+        <p>Vui lòng đăng nhập để tiếp tục</p>
 
-            <!-- Form gửi dữ liệu đến PHP -->
-            <form action="../../CONTROLLER/controller_login.php" method="POST">
-                <div class="input-group">
-                    <input type="text" name="username" placeholder="Tên tài khoản" required>
-                </div>
-                <div class="input-group">
-                    <input type="password" name="password" placeholder="Mật khẩu" required>
-                </div>
-                <button type="submit" class="login-btn">Đăng nhập</button>
-            </form>
-
-            <div class="social-login">
-                <p>hoặc đăng nhập bằng</p>
-                <button>Google</button>
-                <button>Facebook</button>
+        <!-- Form gửi dữ liệu đến PHP -->
+        <form action="../../CONTROLLER/controller_login.php" method="POST">
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Tên tài khoản" required>
             </div>
-
-            <div class="register-link">
-                <p>Bạn chưa có tài khoản? <a href="register.php">Đăng ký</a></p>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Mật khẩu" required>
             </div>
+            <button type="submit" class="login-btn">Đăng nhập</button>
+        </form>
+
+        <div class="social-login">
+            <p>hoặc đăng nhập bằng</p>
+            <button>Google</button>
+            <button>Facebook</button>
         </div>
 
+        <div class="register-link">
+            <p>Bạn chưa có tài khoản? <a href="register.php">Đăng ký</a></p>
+        </div>
+    </div>
+    <script src="<?= BASE_URL ?>js/theme.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>js/toggle.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>js/productsView.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

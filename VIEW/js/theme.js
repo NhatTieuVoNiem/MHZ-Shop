@@ -45,4 +45,5 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("dark");
     localStorage.setItem("theme", "dark");
   });
+
 });

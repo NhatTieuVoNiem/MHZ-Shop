@@ -49,80 +49,42 @@ class Product
         return $stmt->execute();
     }
     // lấy sản phẩm top
-    public function getFeaturedNFT()
-    {
-        $sql = "
-    SELECT
-        p.product_id,
-        p.product_name,
-        p.price,
-        p.created_at,
-        p.thumbnail_url,
-        p.description,
-        p.preview_url, 
-        a.username,
-        a.avatar_url
-    FROM products p
-    LEFT JOIN accounts a
-        ON p.account_id = a.account_id
-    ORDER BY RAND()
-    LIMIT 1
-    ";
+public function getFeaturedNFT() {
+    $stmt = $this->conn->prepare("
+        SELECT 
+            p.product_id,
+            p.product_name,
+            p.thumbnail_url,
+            p.price,
+            p.created_at,
+            p.description,
+            p.preview_url,
+            a.username,
+            a.avatar_url
+        FROM products p
+        JOIN accounts a ON p.account_id = a.account_id
+        ORDER BY p.created_at DESC
+        LIMIT 1
+    ");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
 
-        $result = $this->conn->query($sql);
+if ($row) {
+    // Trim toàn bộ các trường string
+    $row['preview_url']    = trim($row['preview_url'] ?? '');
+    $row['thumbnail_url']  = trim($row['thumbnail_url'] ?? '');
+    $row['product_name']   = trim($row['product_name'] ?? '');
+    $row['username']       = trim($row['username'] ?? '');
 
-        // DỮ LIỆU MẶC ĐỊNH
-        $data = [
-            "product_id"   => 0,
-            "product_name" => "Birghten LQ",
-            "price"        => "0.15",
-            "created_at"   => date("Y-m-d"),
-            "thumbnail"    => BASE_URL . "assets/images/home/topSection/NFT.png",
-            "description"  => "Digital marketplace for crypto collectibles and non fungible tokens",
-            "username"     => "John Abraham",
-            "avatar_url"   => BASE_URL . "assets/images/home/topSection/Avatar.png",
-            "preview_url"  => BASE_URL . "page/bid.php?id=0"
-        ];
-
-        // =========================
-        // NẾU CÓ DỮ LIỆU
-        // =========================
-        if ($result && $row = $result->fetch_assoc()) {
-
-            $data["product_id"] = $row["product_id"] ?? 0;
-
-            if (!empty($row["product_name"])) {
-                $data["product_name"] = $row["product_name"];
-            }
-
-            if (!empty($row["price"])) {
-                $data["price"] = $row["price"];
-            }
-            if (!empty($row["created_at"])) {
-                $data["created_at"] = $row["created_at"];
-            }
-            if (!empty($row["thumbnail_url"])) {
-                $data["thumbnail"] = BASE_URL . $row["thumbnail_url"];
-            }
-
-            if (!empty($row["description"])) {
-                $data["description"] = $row["description"];
-            }
-
-            if (!empty($row["username"])) {
-                $data["username"] = $row["username"];
-            }
-
-            if (!empty($row["avatar_url"])) {
-                $data["avatar_url"] = BASE_URL . $row["avatar_url"];
-            }
-            if (!empty($row["preview_url"])) {
-                $data["preview_url"] = $row["preview_url"];
-            }
-        }
-
-        return $data;
+    if (!str_starts_with($row['thumbnail_url'], 'http') && 
+        !str_starts_with($row['thumbnail_url'], './')) {
+        $row['thumbnail_url'] = './' . $row['thumbnail_url'];
     }
+}
+
+return $row;
+}
     // Lấy 8 sản phẩm có lượt xem cao nhất
     public function getTrendingProducts($limit = 8)
     {
@@ -285,5 +247,28 @@ class Product
         $result = $stmt->get_result()->fetch_assoc();
         $stmt->close();
         return (int)($result['total'] ?? 0);
+    }
+// lấy sản phẩm mới thêm
+      public function getRecentActivities($limit = 5)
+    {
+        $sql = "
+            SELECT 
+                p.product_id,
+                p.product_name,
+                p.thumbnail_url,
+                p.created_at,
+                a.username
+            FROM products p
+            JOIN accounts a 
+                ON p.account_id = a.account_id
+            ORDER BY p.created_at DESC
+            LIMIT ?
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+
+        return $stmt->get_result();
     }
 }

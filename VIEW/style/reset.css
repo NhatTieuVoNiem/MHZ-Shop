@@ -16,10 +16,8 @@ html, body {
   margin: 0;
 }
 
-.menu li {
-  list-style: none;
-}
 
+ul,li,a{list-style: none;}
 a {
     text-decoration: none;
 }
@@ -38,4 +36,9 @@ a {
     --red--30: #DC3546;
     --green--30: #50BB25;
     --yellow--30: #F9D62C;
+     --bg-main: #0B0620;
+    --bg-card: #161129;
+    --text-main: #ffffff;
+    --text-soft: #b7b7d1;
+    --primary: #7B5CFF;
 }

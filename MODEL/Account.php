@@ -54,5 +54,32 @@ class Account  {
 
         return $result->fetch_assoc();
     }
+    // lấy những người có nhiều sản phẩm nhất
+     public function getTopCreators($limit = 8)
+    {
+        $sql = "
+            SELECT 
+                a.account_id,
+                a.username,
+                a.avatar_url,
+                COUNT(p.product_id) AS total_items
+            FROM accounts a
+
+            LEFT JOIN products p
+                ON a.account_id = p.account_id
+
+            GROUP BY a.account_id
+
+            ORDER BY total_items DESC
+
+            LIMIT ?
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+
+        return $stmt->get_result();
+    }
 }
 ?>
