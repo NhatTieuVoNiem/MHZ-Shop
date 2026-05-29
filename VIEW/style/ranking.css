@@ -1,280 +1,334 @@
-/* =========================
-   Ranking Page
-========================= */
+/* ============================================================
+   ranking.css — Giao diện trang Bảng xếp hạng (ranking.php)
+   - .ranking-dashboard: lưới 3 cột (bids | chart | donut)
+   - .bid-card*: thẻ thống kê cột trái
+   - .chart-panel*: vùng chứa canvas Chart.js
+   - .ranking-product-*: lưới sản phẩm phía dưới
+   ============================================================ */
 
-.ranking-page{
-    padding: 40px 0 80px;
+.ranking-page {
+    flex-direction: column;
+    padding: 32px 0 72px;
+    gap: 40px;
 }
 
-.ranking-page__header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    margin-bottom:40px;
+.ranking-dashboard {
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) minmax(320px, 2fr) minmax(240px, 1fr);
+    gap: 24px;
+    align-items: stretch;
+    width: 100%;
 }
 
-.ranking-page__title{
-    font-size:42px;
-    color:#fff;
-    margin-bottom:10px;
+.ranking-dashboard__title {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 18px;
 }
 
-.ranking-page__subtitle{
-    color:#8B8CA7;
-    font-size:16px;
+.ranking-dashboard__col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
-.ranking-filter{
-    display:flex;
-    gap:12px;
+/* --- Cột Trending Bids: danh sách thẻ .bid-card dọc --- */
+
+.bid-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
 }
 
-.ranking-filter__btn{
-    border:none;
-    outline:none;
-    padding:12px 22px;
-    border-radius:12px;
-    background:#1D173D;
-    color:#B7B9D2;
-    cursor:pointer;
-    transition:.3s;
-    font-weight:600;
+.bid-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 16px;
+    background: #1a1a2e;
+    border-radius: 18px;
+    min-height: 88px;
 }
 
-.ranking-filter__btn:hover,
-.ranking-filter__btn.active{
-    background:linear-gradient(
-        135deg,
-        #7B61FF,
-        #9F55FF
-    );
-
-    color:#fff;
+.bid-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #fff;
+    font-size: 18px;
 }
 
-/* =========================
-   Block
-========================= */
-
-.ranking-block{
-    margin-bottom:60px;
+.bid-card__icon--purple {
+    background: linear-gradient(135deg, #7b61ff, #9f55ff);
 }
 
-.ranking-block__head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
+.bid-card__icon--red {
+    background: linear-gradient(135deg, #ff4d6d, #dc3546);
 }
 
-.ranking-block__head h2{
-    color:#fff;
-    font-size:28px;
+.bid-card__icon--green {
+    background: linear-gradient(135deg, #50bb25, #3dd68c);
 }
 
-.ranking-block__head a{
-    color:#8B5CF6;
-    font-weight:700;
+.bid-card__info {
+    flex: 1;
+    min-width: 0;
 }
 
-/* =========================
-   Grid
-========================= */
-
-.ranking-grid{
-    display:grid;
-    grid-template-columns:repeat(
-        auto-fit,
-        minmax(260px,1fr)
-    );
-
-    gap:24px;
+.bid-card__info strong {
+    display: block;
+    color: #fff;
+    font-size: 26px;
+    line-height: 1.1;
+    margin-bottom: 4px;
 }
 
-/* =========================
-   Ranking Card
-========================= */
-
-.ranking-card{
-    background:#17122F;
-    border-radius:24px;
-    overflow:hidden;
-    padding:18px;
-    transition:.3s;
-    border:1px solid transparent;
+.bid-card__info span {
+    color: #8b8ca7;
+    font-size: 14px;
+    font-weight: 500;
 }
 
-.ranking-card:hover{
-    transform:translateY(-5px);
-
-    border-color:#7B61FF;
-
-    box-shadow:
-    0 10px 30px rgba(123,97,255,.25);
+.bid-card__change {
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
-.ranking-card__top{
-    position:relative;
+.bid-card__change--up {
+    color: #50bb25;
 }
 
-.ranking-number{
-    position:absolute;
-    top:14px;
-    left:14px;
-
-    width:42px;
-    height:42px;
-
-    border-radius:50%;
-
-    background:linear-gradient(
-        135deg,
-        #7B61FF,
-        #D946EF
-    );
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#fff;
-    font-weight:700;
-    z-index:10;
+.bid-card__change--down {
+    color: #dc3546;
 }
 
-.ranking-card__image{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-    border-radius:20px;
+/* --- Cột ETH Price & Statistics: khung biểu đồ --- */
+
+.chart-panel {
+    background: #1a1a2e;
+    border-radius: 18px;
+    padding: 20px 18px 16px;
+    flex: 1;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
 }
 
-.ranking-card__content{
-    padding-top:18px;
+.chart-panel canvas {
+    width: 100% !important;
+    flex: 1;
+    min-height: 240px;
 }
 
-.ranking-card__content h3{
-    color:#fff;
-    font-size:22px;
-    margin-bottom:14px;
+.chart-panel--donut {
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 22px;
 }
 
-.ranking-meta{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:18px;
-    color:#A1A1C1;
+.chart-panel__donut-wrap {
+    position: relative;
+    width: min(220px, 100%);
+    aspect-ratio: 1;
+    margin: 8px auto 0;
 }
 
-.ranking-btn{
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    height:50px;
-
-    border-radius:14px;
-
-    background:linear-gradient(
-        135deg,
-        #7B61FF,
-        #8B5CF6
-    );
-
-    color:#fff;
-    font-weight:700;
-    transition:.3s;
+.chart-panel__donut-wrap canvas {
+    min-height: 0;
 }
 
-.ranking-btn:hover{
-    opacity:.9;
+.stats-legend {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 0;
+    list-style: none;
 }
 
-/* =========================
-   Mini Card
-========================= */
-
-.ranking-mini{
-    background:#17122F;
-    border-radius:22px;
-    padding:18px;
-
-    display:flex;
-    align-items:center;
-    gap:16px;
-
-    transition:.3s;
+.stats-legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #8b8ca7;
+    font-size: 14px;
+    font-weight: 500;
 }
 
-.ranking-mini:hover{
-    transform:translateY(-4px);
-
-    box-shadow:
-    0 10px 25px rgba(123,97,255,.2);
+.stats-legend__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
-.ranking-mini__left{
-    position:relative;
+.stats-legend__dot--sold {
+    background: #7b61ff;
 }
 
-.ranking-mini__number{
-    position:absolute;
-    top:-10px;
-    left:-10px;
-
-    width:34px;
-    height:34px;
-
-    border-radius:50%;
-
-    background:#7B61FF;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#fff;
-    font-size:14px;
-    font-weight:700;
+.stats-legend__dot--cancel {
+    background: transparent;
+    border: 2px solid #6c7aa0;
 }
 
-.ranking-mini img{
-    width:90px;
-    height:90px;
-    border-radius:18px;
-    object-fit:cover;
+/* --- Phần Top sản phẩm nổi bật (dưới dashboard) --- */
+
+.ranking-products {
+    width: 100%;
 }
 
-.ranking-mini__content{
-    flex:1;
+.ranking-products__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
 }
 
-.ranking-mini__content h3{
-    color:#fff;
-    font-size:18px;
-    margin-bottom:10px;
+.ranking-products__head h2 {
+    color: #fff;
+    font-size: 24px;
 }
 
-.ranking-mini__content span{
-    color:#8B8CA7;
-    font-size:15px;
+.ranking-products__head a {
+    color: #7b61ff;
+    font-weight: 700;
+    font-size: 15px;
 }
 
-/* =========================
-   Responsive
-========================= */
+.ranking-products__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
 
-@media(max-width:768px){
+.ranking-products__empty {
+    color: #8b8ca7;
+    grid-column: 1 / -1;
+}
 
-    .ranking-page__header{
-        flex-direction:column;
-        align-items:flex-start;
+.ranking-product-card {
+    position: relative;
+    background: #1a1a2e;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ranking-product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(123, 97, 255, 0.22);
+}
+
+.ranking-product-card__rank {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7b61ff, #d946ef);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ranking-product-card > img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.ranking-product-card__body h3 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.ranking-product-card__body p {
+    color: #8b8ca7;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.ranking-product-card__body p i {
+    color: #7b61ff;
+    width: 16px;
+}
+
+.ranking-product-card__btn {
+    margin-top: auto;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #7b61ff, #8b5cf6);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    transition: opacity 0.2s ease;
+}
+
+.ranking-product-card__btn:hover {
+    opacity: 0.9;
+}
+
+/* --- Responsive: xếp chồng cột trên màn hình nhỏ --- */
+
+@media (max-width: 1100px) {
+    .ranking-dashboard {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .ranking-page__title{
-        font-size:32px;
+    .ranking-dashboard__col--eth {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .ranking-page {
+        padding: 24px 0 56px;
     }
 
+    .ranking-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .ranking-dashboard__title {
+        font-size: 20px;
+    }
+
+    .chart-panel {
+        min-height: 260px;
+    }
+
+    .bid-card__info strong {
+        font-size: 22px;
+    }
+
+    .stats-legend {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
 }

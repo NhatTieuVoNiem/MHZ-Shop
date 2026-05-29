@@ -1,7 +1,10 @@
 <?php
-
-/** @var array $item */ ?>
-<?php /** @var Product $productModel */ ?>
+/**
+ * Thẻ sản phẩm dùng lại trên products.php
+ * @var array   $item          Một dòng sản phẩm từ DB
+ * @var Product $productModel  Gọi countViews() hiển thị lượt xem
+ */
+?>
 <article class="section__content--card">
   <figure class="content__card--banner">
     <img
@@ -21,6 +24,7 @@
         <span><?= $productModel->countViews($item['product_id']) ?></span>
       </div>
     </div>
+    <?php /* POST trackView → controller_products_view.php → redirect trang chi tiết */ ?>
     <form id="detail-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
       <input type="hidden" name="action" value="trackView">
       <input type="hidden" name="product_id" id="detail-product-id">

@@ -1,10 +1,11 @@
 <?php
+/**
+ * Section Trending Bids (trang chủ)
+ * Hiển thị sản phẩm có lượt xem cao; nút "Xem chi tiết" gửi form trackView qua productsView.js
+ */
 require_once("../MODEL/Product.php");
 
-// Tạo object Product
 $productModel = new Product($conn);
-
-// Lấy tất cả sản phẩm
 $products = $productModel->getTrendingProducts();
 ?>
 
@@ -61,11 +62,12 @@ $products = $productModel->getTrendingProducts();
               </div>
 
             </div>
-<form id="detail-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
-    <input type="hidden" name="action" value="trackView">
-    <input type="hidden" name="product_id" id="detail-product-id" value="">
-    <input type="hidden" name="redirect_url" id="detail-redirect-url" value="">
-</form>
+            <?php /* Form ẩn: JS điền product_id + redirect_url rồi POST ghi lượt xem */ ?>
+            <form id="detail-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
+              <input type="hidden" name="action" value="trackView">
+              <input type="hidden" name="product_id" id="detail-product-id" value="">
+              <input type="hidden" name="redirect_url" id="detail-redirect-url" value="">
+            </form>
           <a
   href="javascript:void(0)"
   class="btn btn-detail"

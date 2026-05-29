@@ -208,48 +208,61 @@ define('BASE_URL', '../');
 
             </section>
 
-            <!-- REVIEW -->
+            <!-- REVIEW: lưới 2 cột; >10 đánh giá thì ẩn bớt, bấm "Xem thêm" hiện hết -->
+            <?php
+            $reviewDisplayLimit = 10;
+            $totalReviewCount = count($reviews);
+            $hasMoreReviews = $totalReviewCount > $reviewDisplayLimit;
+            ?>
             <section class="review-section container">
 
                 <div class="section-title">
                     <h2>Đánh giá sản phẩm</h2>
+                    <?php if ($totalReviewCount > 0): ?>
+                        <span class="review-count"><?= $totalReviewCount ?> đánh giá</span>
+                    <?php endif; ?>
                 </div>
 
-                <?php if (count($reviews) > 0): ?>
+                <?php if ($totalReviewCount > 0): ?>
 
-                    <div class="review-list">
+                    <div
+                        class="review-list"
+                        id="review-list"
+                        data-limit="<?= $reviewDisplayLimit ?>">
 
-                        <?php foreach ($reviews as $review): ?>
-
-                            <div class="review-card">
+                        <?php foreach ($reviews as $index => $review): ?>
+                            <?php
+                            $isHidden = $index >= $reviewDisplayLimit;
+                            $cardClass = 'review-card' . ($isHidden ? ' review-card--hidden' : '');
+                            ?>
+                            <div class="<?= $cardClass ?>">
 
                                 <div class="review-top">
-
-                                    <h4>
-                                        User #<?= $review['account_id'] ?>
-                                    </h4>
-
-                                    <span>
-                                        ⭐ <?= $review['rating'] ?>/5
-                                    </span>
-
+                                    <h4>User #<?= (int) $review['account_id'] ?></h4>
+                                    <span>⭐ <?= (int) $review['rating'] ?>/5</span>
                                 </div>
 
-                                <p>
-                                    <?= htmlspecialchars($review['comment']) ?>
-                                </p>
+                                <p><?= htmlspecialchars($review['comment']) ?></p>
 
                             </div>
-
                         <?php endforeach; ?>
 
                     </div>
 
+                    <?php if ($hasMoreReviews): ?>
+                        <button
+                            type="button"
+                            class="review-load-more"
+                            id="review-load-more"
+                            aria-expanded="false"
+                            data-hidden-count="<?= $totalReviewCount - $reviewDisplayLimit ?>">
+                            Xem thêm (<?= $totalReviewCount - $reviewDisplayLimit ?> đánh giá)
+                        </button>
+                    <?php endif; ?>
+
                 <?php else: ?>
 
-                    <p class="empty-review">
-                        Chưa có đánh giá nào
-                    </p>
+                    <p class="empty-review">Chưa có đánh giá nào</p>
 
                 <?php endif; ?>
 
@@ -263,6 +276,7 @@ define('BASE_URL', '../');
     <script src="<?= BASE_URL ?>js/toggle.js?v=<?= time() ?>"></script>
     <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
      <script src="<?= BASE_URL ?>js/productsView.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>js/productsDetails.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

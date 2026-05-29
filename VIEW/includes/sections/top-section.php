@@ -90,6 +90,7 @@
         </div>
 
         <div class="top-section__left--list-btn">
+          <?php /* Form trackView cho nút "Xem trước" — xử lý bởi productsView.js */ ?>
           <form id="preview-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
             <input type="hidden" name="action" value="trackView">
             <input type="hidden" name="product_id" id="form-product-id" value="">

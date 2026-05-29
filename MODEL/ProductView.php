@@ -1,8 +1,10 @@
 <?php
 
 /**
- * Class ProductView
- * Model quản lý bảng 'product_views'
+ * Model quản lý bảng `product_views` — lưu lịch sử lượt xem sản phẩm
+ *
+ * Mỗi lần user bấm "Xem chi tiết" / "Xem trước", controller gọi create()
+ * để thêm dòng mới (trừ khi cùng account + product đã xem trong 5 phút).
  */
 class ProductView
 {
@@ -14,17 +16,23 @@ class ProductView
         $this->conn = $db;
     }
 
-    // Lấy tất cả bản ghi trong bảng product_views
+    /** Lấy toàn bộ lượt xem (dùng đếm thủ công trên productsDetails.php) */
     public function getAll()
     {
         $sql = "SELECT * FROM {$this->table}";
         return $this->conn->query($sql);
     }
 
-    // Tạo mới một view cho sản phẩm
+    /**
+     * Thêm một lượt xem mới
+     *
+     * @param int $account_id ID tài khoản (guest thường dùng 1 từ controller)
+     * @param int $product_id  ID sản phẩm được xem
+     * @return bool true nếu INSERT thành công; false nếu trùng trong 5 phút
+     */
     public function create(int $account_id, int $product_id)
     {
-        // Kiểm tra đã xem trong 5 phút chưa
+        // Chống spam: cùng user + cùng SP không ghi thêm trong 5 phút
         $check = $this->conn->prepare("
         SELECT view_id FROM product_views 
         WHERE account_id = ? AND product_id = ?
@@ -39,7 +47,6 @@ class ProductView
             return false;
         }
 
-        // Thêm mới
         $stmt = $this->conn->prepare("
         INSERT INTO product_views (account_id, product_id, viewed_at) 
         VALUES (?, ?, NOW())
