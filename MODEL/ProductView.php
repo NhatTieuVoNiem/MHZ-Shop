@@ -30,29 +30,27 @@ class ProductView
      * @param int $product_id  ID sản phẩm được xem
      * @return bool true nếu INSERT thành công; false nếu trùng trong 5 phút
      */
-    public function create(int $account_id, int $product_id)
-    {
-        // Chống spam: cùng user + cùng SP không ghi thêm trong 5 phút
+   public function create(?int $account_id, int $product_id)
+{
+    // Chống spam 5 phút — chỉ áp dụng cho user đã đăng nhập
+    if ($account_id !== null) {
         $check = $this->conn->prepare("
-        SELECT view_id FROM product_views 
-        WHERE account_id = ? AND product_id = ?
-        AND viewed_at >= NOW() - INTERVAL 5 MINUTE
-        LIMIT 1
-    ");
+            SELECT view_id FROM product_views 
+            WHERE account_id = ? AND product_id = ?
+            AND viewed_at >= NOW() - INTERVAL 5 MINUTE
+            LIMIT 1
+        ");
         $check->bind_param("ii", $account_id, $product_id);
         $check->execute();
         $check->store_result();
+        if ($check->num_rows > 0) return false;
+    }
 
-        if ($check->num_rows > 0) {
-            return false;
-        }
-
-        $stmt = $this->conn->prepare("
+    $stmt = $this->conn->prepare("
         INSERT INTO product_views (account_id, product_id, viewed_at) 
         VALUES (?, ?, NOW())
     ");
-
-        $stmt->bind_param("ii", $account_id, $product_id);
-        return $stmt->execute();
-    }
+    $stmt->bind_param("ii", $account_id, $product_id);
+    return $stmt->execute();
+}
 }

@@ -25,10 +25,10 @@
       </div>
     </div>
     <?php /* POST trackView → controller_products_view.php → redirect trang chi tiết */ ?>
-    <form id="detail-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
+    <form method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
       <input type="hidden" name="action" value="trackView">
-      <input type="hidden" name="product_id" id="detail-product-id">
-      <input type="hidden" name="redirect_url" id="detail-redirect-url">
+      <input type="hidden" name="product_id">
+      <input type="hidden" name="redirect_url">
     </form>
     <a
       href="javascript:void(0)"

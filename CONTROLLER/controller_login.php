@@ -52,9 +52,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["success"] = "Đăng nhập thành công";
 
             // Chuyển trang
-            header("Location: ../VIEW/page/user.php");
+            switch ((int)$user["role_id"]) {
+                case 1:
+                    header("Location: ../VIEW/page/admin.php");
+                    break;
+                case 2:
+                    header("Location: ../VIEW/page/seller.php");
+                    break;
+                default: // role_id = 3 hoặc bất kỳ role nào khác → user thường
+                    header("Location: ../VIEW/page/user.php");
+                    break;
+            }
             exit();
-
         } else {
 
             $_SESSION["error"] = "Sai mật khẩu";
@@ -62,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../VIEW/page/login.php");
             exit();
         }
-
     } else {
 
         $_SESSION["error"] = "Tên tài khoản không tồn tại";
@@ -71,4 +79,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
-?>

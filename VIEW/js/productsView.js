@@ -1,35 +1,31 @@
-/**
- * productsView.js — Gửi form POST ghi lượt xem trước khi chuyển trang
- *
- * Cần có trên HTML:
- * - #preview-form + .btn-preview (nút "Xem trước" → redirect preview_url)
- * - #detail-form + .btn-detail (nút "Xem chi tiết" → redirect trang chi tiết)
- *
- * Form POST tới CONTROLLER/controller_products_view.php với action=trackView
- */
-
-// Nút "Xem trước": ghi lượt xem rồi mở link preview của sản phẩm
+// Nút "Xem trước" — dùng closest() thay vì getElementById để tránh duplicate ID
 document.querySelectorAll('.btn-preview').forEach(btn => {
     btn.addEventListener('click', function () {
         const productId  = this.dataset.productId;
         const previewUrl = this.dataset.previewUrl;
 
-        document.getElementById('form-product-id').value   = productId;
-        document.getElementById('form-redirect-url').value = previewUrl;
+        // Tìm form gần nhất trong cùng card, không dùng getElementById
+        const card = this.closest('article') || document;
+        const form = card.querySelector('#preview-form') 
+                     || document.querySelector('#preview-form'); // fallback
 
-        document.getElementById('preview-form').submit();
+        if (!form) return; // ← tránh crash khi không có preview-form
+        form.querySelector('[name="product_id"]').value  = productId;
+        form.querySelector('[name="redirect_url"]').value = previewUrl;
+        form.submit();
     });
 });
 
-// Nút "Xem chi tiết": ghi lượt xem rồi chuyển tới productsDetails.php
+// Nút "Xem chi tiết"
 document.querySelectorAll('.btn-detail').forEach(btn => {
     btn.addEventListener('click', function () {
         const productId = this.dataset.productId;
         const detailUrl = this.dataset.detailUrl;
 
-        document.getElementById('detail-product-id').value = productId;
-        document.getElementById('detail-redirect-url').value = detailUrl;
-
-        document.getElementById('detail-form').submit();
+        // Tìm form trong cùng article card → tránh duplicate ID
+        const form = this.closest('article').querySelector('form');
+        form.querySelector('[name="product_id"]').value   = productId;
+        form.querySelector('[name="redirect_url"]').value = detailUrl;
+        form.submit();
     });
 });
