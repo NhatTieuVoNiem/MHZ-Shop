@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["account_id"] = $user["account_id"];
             $_SESSION["username"]   = $user["username"];
             $_SESSION["role_id"]    = $user["role_id"];
-
+            $_SESSION["avatar_url"] = $user["avatar_url"];
             // Đăng nhập thành công
             $_SESSION["success"] = "Đăng nhập thành công";
 
