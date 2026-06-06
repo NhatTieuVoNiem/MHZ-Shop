@@ -24,7 +24,7 @@ if (
     <link rel="stylesheet" href="<?= BASE_URL ?>style/font.css?v=<?= time() ?>" />
     <link rel="stylesheet" href="<?= BASE_URL ?>style/common.css?v=<?= time() ?>" />
     <link rel="stylesheet" href="<?= BASE_URL ?>style/footer.css?v=<?= time() ?>" />
-    <link rel="stylesheet" href="<?= BASE_URL ?>style/admin.css?v=<?= time() ?>" />
+    <link rel="stylesheet" href="<?= BASE_URL ?>style/orders.css?v=<?= time() ?>" />
 </head>
 
 <body>

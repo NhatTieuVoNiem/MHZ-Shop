@@ -18,6 +18,7 @@ $tables = [
         role_id INT NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME NULL,
+        is_deleted TINYINT(1) DEFAULT 0,
         CONSTRAINT fk_account_role FOREIGN KEY (role_id) REFERENCES roles(role_id)
     )",
 
