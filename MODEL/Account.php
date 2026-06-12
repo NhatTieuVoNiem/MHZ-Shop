@@ -319,9 +319,9 @@ class Account
         return $this->conn->query($sql)->fetch_assoc()['total'];
     }
     // Danh sách tài khoản bị vô hiệu hóa
-public function getDeletedAccounts()
-{
-    $sql = "
+    public function getDeletedAccounts()
+    {
+        $sql = "
         SELECT
             account_id,
             username,
@@ -333,16 +333,89 @@ public function getDeletedAccounts()
         ORDER BY account_id DESC
     ";
 
-    return $this->conn->query($sql);
-}
-public function countDeletedAccounts()
-{
-    $sql = "
+        return $this->conn->query($sql);
+    }
+    // dếm tk bị vô hiệu hoá
+    public function countDeletedAccounts()
+    {
+        $sql = "
         SELECT COUNT(*) AS total
         FROM accounts
         WHERE is_deleted = 1
     ";
 
-    return $this->conn->query($sql)->fetch_assoc()['total'];
+        return $this->conn->query($sql)->fetch_assoc()['total'];
+    }
+    // lấy thông tin tài khoản
+    public function getFullInfo($account_id)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT
+            a.*,
+            ap.profile_id,
+            ap.last_name,
+            ap.middle_name,
+            ap.first_name,
+            ap.gender_id,
+            ap.date_of_birth,
+            ap.phone,
+            ap.bio
+        FROM accounts a
+        LEFT JOIN account_profiles ap
+            ON a.account_id = ap.account_id
+        WHERE a.account_id = ?
+        LIMIT 1
+    ");
+
+        $stmt->bind_param("i", $account_id);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc();
+    }
+ public function getAccountById($accountId)
+{
+    $sql = "
+        SELECT
+            a.account_id,
+            a.username,
+            a.email,
+            a.avatar_url,
+            a.cover_url,
+            a.role_id,
+            a.created_at,
+            a.updated_at,
+
+            p.profile_id,
+            p.last_name,
+            p.middle_name,
+            p.first_name,
+            p.gender_id,
+            p.date_of_birth,
+            p.bio,
+            p.phone,
+
+            g.gender_name,
+            r.role_name
+
+        FROM accounts a
+
+        LEFT JOIN account_profiles p
+            ON a.account_id = p.account_id
+
+        LEFT JOIN genders g
+            ON p.gender_id = g.gender_id
+
+        LEFT JOIN roles r
+            ON a.role_id = r.role_id
+
+        WHERE a.account_id = ?
+        LIMIT 1
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $accountId);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_assoc();
 }
 }

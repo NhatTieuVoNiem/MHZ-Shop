@@ -49,8 +49,9 @@ class Product
         return $stmt->execute();
     }
     // lấy sản phẩm top
-public function getFeaturedNFT() {
-    $stmt = $this->conn->prepare("
+    public function getFeaturedNFT()
+    {
+        $stmt = $this->conn->prepare("
         SELECT 
             p.product_id,
             p.product_name,
@@ -66,25 +67,27 @@ public function getFeaturedNFT() {
         ORDER BY p.created_at DESC
         LIMIT 1
     ");
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
 
-if ($row) {
-    // Trim toàn bộ các trường string
-    $row['preview_url']    = trim($row['preview_url'] ?? '');
-    $row['thumbnail_url']  = trim($row['thumbnail_url'] ?? '');
-    $row['product_name']   = trim($row['product_name'] ?? '');
-    $row['username']       = trim($row['username'] ?? '');
+        if ($row) {
+            // Trim toàn bộ các trường string
+            $row['preview_url']    = trim($row['preview_url'] ?? '');
+            $row['thumbnail_url']  = trim($row['thumbnail_url'] ?? '');
+            $row['product_name']   = trim($row['product_name'] ?? '');
+            $row['username']       = trim($row['username'] ?? '');
 
-    if (!str_starts_with($row['thumbnail_url'], 'http') && 
-        !str_starts_with($row['thumbnail_url'], './')) {
-        $row['thumbnail_url'] = './' . $row['thumbnail_url'];
+            if (
+                !str_starts_with($row['thumbnail_url'], 'http') &&
+                !str_starts_with($row['thumbnail_url'], './')
+            ) {
+                $row['thumbnail_url'] = './' . $row['thumbnail_url'];
+            }
+        }
+
+        return $row;
     }
-}
-
-return $row;
-}
     // Lấy 8 sản phẩm có lượt xem cao nhất
     public function getTrendingProducts($limit = 8)
     {
@@ -154,9 +157,9 @@ return $row;
         return $stmt->get_result();
     }
     // Hàm lấy danh sách sản phẩm theo điều kiện lọc
-  public function filterProducts($keyword, $category, $price, $sort)
-{
-    $sql = "SELECT p.*,
+    public function filterProducts($keyword, $category, $price, $sort)
+    {
+        $sql = "SELECT p.*,
                 COUNT(DISTINCT pv.view_id)  AS view_count,
                 COUNT(DISTINCT pl.like_id)  AS like_count
             FROM products p
@@ -164,53 +167,53 @@ return $row;
             LEFT JOIN product_likes pl ON pl.product_id = p.product_id
             WHERE 1=1";
 
-    $params = [];
-    $types  = "";
+        $params = [];
+        $types  = "";
 
-    if (!empty($keyword)) {
-        $sql .= " AND p.product_name LIKE ?";
-        $params[] = "%$keyword%";
-        $types   .= "s";
+        if (!empty($keyword)) {
+            $sql .= " AND p.product_name LIKE ?";
+            $params[] = "%$keyword%";
+            $types   .= "s";
+        }
+
+        if (!empty($category)) {
+            $sql .= " AND p.category_id = ?";
+            $params[] = $category;
+            $types   .= "i";
+        }
+
+        if ($price == "under1") {
+            $sql .= " AND p.price < 1000000";
+        } elseif ($price == "1to10") {
+            $sql .= " AND p.price BETWEEN 1000000 AND 10000000";
+        } elseif ($price == "over10") {
+            $sql .= " AND p.price > 10000000";
+        }
+
+        // GROUP BY trước ORDER BY
+        $sql .= " GROUP BY p.product_id";
+
+        if ($sort == "newest") {
+            $sql .= " ORDER BY p.created_at DESC";
+        } elseif ($sort == "asc") {
+            $sql .= " ORDER BY p.price ASC";
+        } elseif ($sort == "desc") {
+            $sql .= " ORDER BY p.price DESC";
+        } elseif ($sort == "views") {
+            $sql .= " ORDER BY view_count DESC";
+        } elseif ($sort == "likes") {
+            $sql .= " ORDER BY like_count DESC";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        return $stmt->get_result();
     }
-
-    if (!empty($category)) {
-        $sql .= " AND p.category_id = ?";
-        $params[] = $category;
-        $types   .= "i";
-    }
-
-    if ($price == "under1") {
-        $sql .= " AND p.price < 1000000";
-    } elseif ($price == "1to10") {
-        $sql .= " AND p.price BETWEEN 1000000 AND 10000000";
-    } elseif ($price == "over10") {
-        $sql .= " AND p.price > 10000000";
-    }
-
-    // GROUP BY trước ORDER BY
-    $sql .= " GROUP BY p.product_id";
-
-    if ($sort == "newest") {
-        $sql .= " ORDER BY p.created_at DESC";
-    } elseif ($sort == "asc") {
-        $sql .= " ORDER BY p.price ASC";
-    } elseif ($sort == "desc") {
-        $sql .= " ORDER BY p.price DESC";
-    } elseif ($sort == "views") {
-        $sql .= " ORDER BY view_count DESC";
-    } elseif ($sort == "likes") {
-        $sql .= " ORDER BY like_count DESC";
-    }
-
-    $stmt = $this->conn->prepare($sql);
-
-    if (!empty($params)) {
-        $stmt->bind_param($types, ...$params);
-    }
-
-    $stmt->execute();
-    return $stmt->get_result();
-}
     // Hàm đếm lượt xem
     public function countViews($product_id)
     {
@@ -248,8 +251,8 @@ return $row;
         $stmt->close();
         return (int)($result['total'] ?? 0);
     }
-// lấy sản phẩm mới thêm
-      public function getRecentActivities($limit = 5)
+    // lấy sản phẩm mới thêm
+    public function getRecentActivities($limit = 5)
     {
         $sql = "
             SELECT 
@@ -270,5 +273,78 @@ return $row;
         $stmt->execute();
 
         return $stmt->get_result();
+    }
+    // Lấy sản phẩm theo account
+    public function getByAccountId($account_id)
+    {
+        $sql = "
+        SELECT *
+        FROM products
+        WHERE account_id = ?
+        ORDER BY created_at DESC
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!$stmt) {
+            throw new Exception("Prepare failed: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("i", $account_id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Execute failed: " . $stmt->error);
+        }
+
+        $result = $stmt->get_result();
+
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+
+        // fallback nếu server không có mysqlnd
+        $data = [];
+        $stmt->bind_result(
+            $product_id,
+            $product_name,
+            $description,
+            $category_id,
+            $account_id,
+            $thumbnail_url,
+            $price,
+            $created_at,
+            $preview_url
+        );
+
+        while ($stmt->fetch()) {
+            $data[] = [
+                'product_id'    => $product_id,
+                'product_name'  => $product_name,
+                'description'   => $description,
+                'category_id'   => $category_id,
+                'account_id'    => $account_id,
+                'thumbnail_url' => $thumbnail_url,
+                'price'         => $price,
+                'created_at'    => $created_at,
+                'preview_url'   => $preview_url,
+            ];
+        }
+
+        return $data;
+    }
+
+    // Đếm sản phẩm
+    public function countByAccountId($account_id)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT COUNT(*) total
+        FROM products
+        WHERE account_id = ?
+    ");
+
+        $stmt->bind_param("i", $account_id);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc()['total'];
     }
 }

@@ -2,6 +2,32 @@
 // Đường dẫn gốc (dùng khi include từ các trang con)
 define('BASE_PATH', __DIR__);
 define('BASE_URL', '../');
+
+session_start();
+
+require_once "../../MODEL/connect.php";
+require_once "../../CONTROLLER/controller_profile.php";
+
+$profileController = new ControllerProfile($conn);
+
+if (isset($_SESSION['account_id'])) {
+    $account_id = $_SESSION['account_id'];
+} else {
+    $account_id = 0;
+}
+
+$data = $profileController->getProfileData($account_id);
+
+$user = $data['user'];
+$products = $data['products'];
+$totalProducts = $data['totalProducts'];
+
+$fullName =
+    trim(
+        ($user['last_name'] ?? '') . ' ' .
+        ($user['middle_name'] ?? '') . ' ' .
+        ($user['first_name'] ?? '')
+    );
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -18,6 +44,7 @@ define('BASE_URL', '../');
   <link rel="stylesheet" href="<?= BASE_URL ?>style/header.css?v=<?= time() ?>" />
   <link rel="stylesheet" href="<?= BASE_URL ?>style/footer.css?v=<?= time() ?>" />
   <link rel="stylesheet" href="<?= BASE_URL ?>style/nav-menu.css?v=<?= time() ?>" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>style/profile.css?v=<?= time() ?>" />
 </head>
 
 <body>
@@ -26,13 +53,7 @@ define('BASE_URL', '../');
     <div class="content">
       <?php require '../includes/header.php'; ?>
 
-      <!-- <main class="body">
-        <?php require BASE_PATH . '/../includes/sections/top-section.php'; ?>
-        <?php require BASE_PATH . '/../includes/sections/trending-section.php'; ?>
-        <?php require BASE_PATH . '/../includes/sections/bids-section.php'; ?>
-        <?php require BASE_PATH . '/../includes/sections/recent-section.php'; ?>
-        <?php require BASE_PATH . '/../includes/sections/active-section.php'; ?>
-      </main> -->
+      <?php require '../includes/profile.php'; ?>
 
        <?php require '../includes/footer.php'; ?>
     </div>

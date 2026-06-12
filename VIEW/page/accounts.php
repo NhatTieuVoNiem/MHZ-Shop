@@ -189,10 +189,11 @@ $deletedTotal    = $data['deletedTotal'];
                             </span>
                         </div>
                         <div class="seller_actions">
-                            <a href="accounts_update.php?id=<?= $seller['account_id'] ?>"
-                                class="btn-action btn-edit">
+                            <button
+                                class="btn-action btn-edit openEditModal"
+                                data-id="<?= $seller['account_id'] ?>">
                                 ✏️ Sửa
-                            </a>
+                            </button>
 
                             <a href="accounts_delete.php?id=<?= $seller['account_id'] ?>"
                                 class="btn-action btn-delete"
@@ -267,10 +268,11 @@ $deletedTotal    = $data['deletedTotal'];
 
                         <div class="buyer_actions">
 
-                            <a href="accounts_update.php?id=<?= $buyer['account_id'] ?>"
-                                class="btn-action btn-edit">
+                            <button
+                                class="btn-action btn-edit openEditModal"
+                                data-id="<?= $buyer['account_id']?>">
                                 ✏️ Sửa
-                            </a>
+                            </button>
 
                             <a href="accounts_delete.php?id=<?= $buyer['account_id'] ?>"
                                 class="btn-action btn-delete"
@@ -289,64 +291,180 @@ $deletedTotal    = $data['deletedTotal'];
             </div>
 
         </div>
-<div class="list_deleted">
+        <div class="list_deleted">
 
-    <div class="title_box">
-        <h2>🚫 Tài Khoản Đã Vô Hiệu Hóa</h2>
+            <div class="title_box">
+                <h2>🚫 Tài Khoản Đã Vô Hiệu Hóa</h2>
 
-        <span class="deleted_count">
-            Tổng: <?= $deletedTotal ?>
-        </span>
-    </div>
+                <span class="deleted_count">
+                    Tổng: <?= $deletedTotal ?>
+                </span>
+            </div>
 
-    <div class="deleted_list">
+            <div class="deleted_list">
 
-        <?php while($account = mysqli_fetch_assoc($deletedAccounts)): ?>
+                <?php while ($account = mysqli_fetch_assoc($deletedAccounts)): ?>
 
-            <div class="deleted_card">
+                    <div class="deleted_card">
 
-                <img
-                    src="<?= !empty($account['avatar_url'])
-                        ? $account['avatar_url']
-                        : '../assets/images/avatar/avatar.png' ?>"
-                    alt="">
+                        <img
+                            src="<?= !empty($account['avatar_url'])
+                                        ? $account['avatar_url']
+                                        : '../assets/images/avatar/avatar.png' ?>"
+                            alt="">
 
-                <div class="deleted_info">
+                        <div class="deleted_info">
 
-                    <h3>
-                        <?= htmlspecialchars($account['username']) ?>
-                    </h3>
+                            <h3>
+                                <?= htmlspecialchars($account['username']) ?>
+                            </h3>
 
-                    <p>
-                        <?= htmlspecialchars($account['email']) ?>
-                    </p>
+                            <p>
+                                <?= htmlspecialchars($account['email']) ?>
+                            </p>
 
-                    <span>
-                        ID: <?= $account['account_id'] ?>
-                    </span>
+                            <span>
+                                ID: <?= $account['account_id'] ?>
+                            </span>
 
-                </div>
+                        </div>
 
-                <div class="deleted_actions">
+                        <div class="deleted_actions">
 
-                    <a
-                        href="accounts_restore.php?id=<?= $account['account_id'] ?>"
-                        class="btn-action btn-restore"
-                        onclick="return confirm('Khôi phục tài khoản này?')">
-                        ♻️ Khôi phục
-                    </a>
+                            <a
+                                href="accounts_restore.php?id=<?= $account['account_id'] ?>"
+                                class="btn-action btn-restore"
+                                onclick="return confirm('Khôi phục tài khoản này?')">
+                                ♻️ Khôi phục
+                            </a>
 
-                </div>
+                        </div>
+
+                    </div>
+
+                <?php endwhile; ?>
 
             </div>
 
-        <?php endwhile; ?>
-
-    </div>
-
-</div>
+        </div>
         <?php require '../includes/footer.php'; ?>
     </div>
+    <div id="editModal" class="modal">
+
+        <div class="modal-content">
+
+            <span class="close-modal">&times;</span>
+
+            <h2>Cập Nhật Tài Khoản</h2>
+
+            <form id="editAccountForm" method="POST"
+                action="../../CONTROLLER/controller_account.php">
+
+                <!-- Account -->
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" name="account_id" id="account_id">
+                <input type="hidden" name="profile_id" id="profile_id">
+
+                <div class="form-group">
+                    <label>Tên đăng nhập</label>
+                    <input type="text"
+                        name="username"
+                        id="username"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email"
+                        name="email"
+                        id="email"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mật khẩu mới</label>
+                    <input type="password"
+                        name="password"
+                        id="password">
+                    <small>Để trống nếu không đổi mật khẩu</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Vai trò</label>
+                    <select name="role_id" id="role_id">
+                        <option value="1">Admin</option>
+                        <option value="2">User</option>
+                        <option value="3">Seller</option>
+                    </select>
+                </div>
+
+                <hr>
+
+                <!-- Profile -->
+
+                <div class="form-group">
+                    <label>Họ</label>
+                    <input type="text"
+                        name="last_name"
+                        id="last_name">
+                </div>
+
+                <div class="form-group">
+                    <label>Tên đệm</label>
+                    <input type="text"
+                        name="middle_name"
+                        id="middle_name">
+                </div>
+
+                <div class="form-group">
+                    <label>Tên</label>
+                    <input type="text"
+                        name="first_name"
+                        id="first_name">
+                </div>
+
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <select name="gender_id" id="gender_id">
+                        <option value="">-- Chọn --</option>
+                        <option value="1">Nam</option>
+                        <option value="2">Nữ</option>
+                        <option value="3">Khác</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Ngày sinh</label>
+                    <input type="date"
+                        name="date_of_birth"
+                        id="date_of_birth">
+                </div>
+
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <input type="text"
+                        name="phone"
+                        id="phone">
+                </div>
+
+                <div class="form-group">
+                    <label>Tiểu sử</label>
+                    <textarea name="bio"
+                        id="bio"
+                        rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="btn-save">
+                    💾 Lưu Thay Đổi
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="../js/acounts.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

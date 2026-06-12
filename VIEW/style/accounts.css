@@ -472,3 +472,136 @@
     padding:40px;
     color:#9ca3af;
 }
+
+/* popup cập nhật */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(4px);
+    z-index:9999;
+}
+
+.modal-content{
+    width:900px;
+    max-width:95%;
+    max-height:90vh;
+    overflow-y:auto;
+    background:#1d1a3a;
+    padding:30px;
+    border-radius:16px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:0 15px 40px rgba(0,0,0,.4);
+}
+
+.modal-content h2{
+    color:#fff;
+    margin-bottom:25px;
+    text-align:center;
+}
+
+.close-modal{
+    position:absolute;
+    right:20px;
+    top:15px;
+    color:#fff;
+    font-size:30px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.close-modal:hover{
+    color:#ff6b6b;
+}
+
+#editAccountForm{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    color:#d6d6d6;
+    margin-bottom:6px;
+    font-size:14px;
+    font-weight:500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#131129;
+    color:#fff;
+    font-size:14px;
+    outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    box-shadow:0 0 0 2px #6c63ff;
+}
+
+.form-group textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+/* Đường phân cách */
+#editAccountForm hr{
+    grid-column:1 / -1;
+    border:none;
+    height:1px;
+    background:rgba(255,255,255,.15);
+    margin:10px 0;
+}
+
+/* Bio full width */
+.form-group:has(textarea){
+    grid-column:1 / -1;
+}
+
+/* Nút lưu full width */
+.btn-save{
+    grid-column:1 / -1;
+    background:linear-gradient(135deg,#4CAF50,#43a047);
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-save:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(76,175,80,.35);
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+    #editAccountForm{
+        grid-template-columns:1fr;
+    }
+
+    .modal-content{
+        width:95%;
+        padding:20px;
+    }
+}
