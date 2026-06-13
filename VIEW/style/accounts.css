@@ -1,27 +1,71 @@
+/* ===========================
+   GLOBAL
+=========================== */
+
 .wrapper{
-    flex-direction: column;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
 }
-/* header */
+
+:root{
+    --bg:#131129;
+    --card:#1d1a3a;
+    --card-hover:#2a2457;
+    --primary:#8b5cf6;
+    --primary-dark:#6c63ff;
+    --success:#22c55e;
+    --danger:#ef4444;
+    --text:#ffffff;
+    --text-muted:#b8bdd6;
+    --border:rgba(255,255,255,.08);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
 .admin-header{
-    height:70px;
-    background:#131129;
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    height:75px;
+    background:rgba(19,17,41,.96);
+    backdrop-filter:blur(12px);
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 30px;
-    border-bottom:1px solid rgba(255,255,255,.08);
-    box-shadow:0 4px 20px rgba(0,0,0,.3);
-    position: sticky;
-    top: 0;
-    left: 0;
-    z-index: 1000;
+
+    padding:0 35px;
+
+    border-bottom:1px solid var(--border);
+    box-shadow:0 5px 20px rgba(0,0,0,.25);
 }
 
 .logo h2{
-    color:#8b5cf6;
     margin:0;
-    font-size:24px;
+    font-size:28px;
     font-weight:700;
+
+    background:linear-gradient(
+        90deg,
+        var(--primary),
+        #60a5fa
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .admin-nav{
@@ -30,35 +74,36 @@
 }
 
 .admin-nav a{
-    color:#cbd5e1;
+    color:#d5d8ea;
     text-decoration:none;
+
     padding:12px 18px;
     border-radius:12px;
-    transition:.3s;
+
     font-weight:500;
-    
+    transition:.3s;
 }
-.admin-nav a:nth-child(2){
-    background:#8b5cf6;
-}
+
 .admin-nav a:hover,
-.admin-nav a:active{
-    background:#8b5cf6;
+.admin-nav a.active{
+    background:var(--primary);
     color:#fff;
 }
 
 .admin-user{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:15px;
 }
 
 .admin-user img{
-    width:45px;
-    height:45px;
+    width:48px;
+    height:48px;
+
     border-radius:50%;
     object-fit:cover;
-    border:2px solid #8b5cf6;
+
+    border:2px solid var(--primary);
 }
 
 .user-info{
@@ -76,11 +121,14 @@
 }
 
 .logout-btn{
-    text-decoration:none;
-    color:#fff;
-    background:#ef4444;
     padding:10px 16px;
+
+    background:var(--danger);
+    color:#fff;
+
+    text-decoration:none;
     border-radius:10px;
+
     transition:.3s;
 }
 
@@ -88,83 +136,34 @@
     background:#dc2626;
 }
 
-/* top accounts */
+/* ===========================
+   SECTIONS
+=========================== */
 
-.top_accounts{
-    display:flex;
-    gap:20px;
-    padding: 20px 60px 70px;
-    margin-top:25px;
-}
-
-.top_accounts .cart{
-    flex:1;
-    background:#1d1a3a;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:16px;
-    padding:20px;
-    display:flex;
-    align-items:center;
-    gap:15px;
-    text-decoration:none;
-    color:#fff;
-    transition:.3s;
-}
-
-.top_accounts .cart:hover{
-    transform:translateY(-5px);
-    border-color:#6c63ff;
-    box-shadow:0 10px 25px rgba(108,99,255,.2);
-}
-
-.top_accounts .avatar img{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    object-fit:cover;
-    border:3px solid #6c63ff;
-}
-
-.top_accounts .label{
-    display:block;
-    color:#a9a5ff;
-    font-size:13px;
-    margin-bottom:6px;
-}
-
-.top_accounts h3{
-    margin:0;
-    font-size:18px;
-    color:#fff;
-}
-
-.top_accounts p{
-    margin-top:8px;
-    color:#cfcfff;
-    font-size:14px;
-}
-
-/* danh sách người bán */
-
-.list_seller{
-    padding: 20px 60px 70px;
-    margin-top:25px;
+.top_accounts,
+.list_seller,
+.list_buyer,
+.list_deleted,
+.list_all_accounts{
+    padding:25px 60px;
 }
 
 .title_box{
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
+
     margin-bottom:20px;
 }
 
 .title_box h2{
+    margin:0;
     color:#fff;
-    font-size:20px;
+    font-size:22px;
 }
 
 .view_more{
-    color:#8f88ff;
+    color:var(--primary);
     text-decoration:none;
     font-weight:600;
 }
@@ -173,199 +172,209 @@
     color:#fff;
 }
 
-.seller_list{
+/* ===========================
+   TOP STATISTICS
+=========================== */
+
+.top_accounts{
     display:flex;
-    flex-direction:column;
-    gap:12px;
+    gap:20px;
 }
 
-.seller_card{
+.top_accounts .cart{
+    flex:1;
+
+    background:linear-gradient(
+        135deg,
+        #1d1a3a,
+        #2c235a
+    );
+
+    border:1px solid var(--border);
+    border-radius:18px;
+
+    padding:20px;
+
     display:flex;
     align-items:center;
     gap:15px;
-    padding:15px;
-    border-radius:12px;
-    background:#26204b;
+
+    color:#fff;
     text-decoration:none;
+
     transition:.3s;
 }
 
-.seller_card:hover{
-    background:#31296b;
-    transform:translateX(5px);
+.top_accounts .cart:hover{
+    transform:translateY(-6px);
+    border-color:var(--primary);
+    box-shadow:0 12px 25px rgba(108,99,255,.25);
+}
+
+.top_accounts .avatar img{
+    width:75px;
+    height:75px;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    border:3px solid var(--primary);
+}
+
+.top_accounts .label{
+    display:block;
+    font-size:13px;
+    color:#bdb9ff;
+    margin-bottom:6px;
+}
+
+.top_accounts h3{
+    margin:0;
+    font-size:22px;
+}
+
+.top_accounts p{
+    margin-top:6px;
+    color:#d5d8ea;
+}
+
+/* ===========================
+   LISTS
+=========================== */
+
+.seller_list,
+.buyer_list,
+.deleted_list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.seller_card,
+.buyer_card{
+    background:var(--card);
+
+    border:1px solid var(--border);
+    border-radius:14px;
+
+    padding:15px;
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    transition:.3s;
+}
+
+.seller_card:hover,
+.buyer_card:hover{
+    background:var(--card-hover);
+    transform:translateX(6px);
 }
 
 .rank{
     min-width:45px;
-    font-size:18px;
+
+    font-size:20px;
     font-weight:700;
+
     color:#ffd700;
 }
 
-.seller_card img{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid #6c63ff;
-}
-
-.seller_info{
-    flex:1;
-}
-
-.seller_info h3{
-    color:#fff;
-    margin:0;
-    font-size:16px;
-}
-
-.seller_info p{
-    margin:4px 0;
-    color:#bdb9ff;
-    font-size:13px;
-}
-
-.revenue{
-    color:#4ade80;
-    font-weight:700;
-}
-
-.seller_actions{
-    display:flex;
-    gap:10px;
-    margin-left:auto;
-}
-
-.btn-action{
-    padding:8px 14px;
-    border-radius:8px;
-    text-decoration:none;
-    font-size:13px;
-    font-weight:600;
-    transition:.3s;
-}
-
-.btn-edit{
-    background:#3b82f6;
-    color:#fff;
-}
-
-.btn-edit:hover{
-    background:#2563eb;
-}
-
-.btn-delete{
-    background:#ef4444;
-    color:#fff;
-}
-
-.btn-delete:hover{
-    background:#dc2626;
-}
-
-/* danh sách người mua */
-
-.list_buyer{
-    padding: 20px 60px 70px;
-    margin-top:25px;
-}
-
-.buyer_list{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.buyer_card{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    padding:15px;
-    background:#26204b;
-    border-radius:12px;
-    transition:.3s;
-}
-
-.buyer_card:hover{
-    background:#31296b;
-}
-
+.seller_card img,
 .buyer_card img{
-    width:55px;
-    height:55px;
+    width:58px;
+    height:58px;
+
     border-radius:50%;
     object-fit:cover;
-    border:2px solid #6c63ff;
+
+    border:2px solid var(--primary);
 }
 
+.seller_info,
 .buyer_info{
     flex:1;
 }
 
+.seller_info h3,
 .buyer_info h3{
     margin:0;
     color:#fff;
-    font-size:16px;
+    font-size:17px;
 }
 
+.seller_info p,
 .buyer_info p{
-    margin:4px 0;
-    color:#bdb9ff;
+    margin:5px 0;
+    color:var(--text-muted);
+    font-size:14px;
 }
 
-.total_products{
-    display:block;
-    color:#60a5fa;
-    font-size:13px;
-}
-
+.revenue,
 .total_spent{
-    display:block;
-    margin-top:5px;
     color:#4ade80;
     font-weight:700;
 }
 
+.total_products{
+    color:#60a5fa;
+    font-size:13px;
+}
+
+/* ===========================
+   ACTION BUTTONS
+=========================== */
+
+.seller_actions,
 .buyer_actions{
     display:flex;
     gap:10px;
 }
 
-/* danh sách tài khoản bị vô hiệu hoá */
+.btn-action{
+    min-width:90px;
+    text-align:center;
 
-.list_deleted{
-    margin-top:40px;
-    padding: 20px 60px 70px;
+    padding:9px 14px;
 
-}
+    border-radius:10px;
+    text-decoration:none;
 
-.list_deleted .title_box{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.list_deleted .title_box h2{
     color:#fff;
-    font-size:24px;
-    font-weight:700;
-}
-
-.deleted_count{
-    padding:8px 18px;
-    border-radius:30px;
-    background:rgba(255, 71, 87, .15);
-    color:#ff6b81;
+    font-size:13px;
     font-weight:600;
+
+    transition:.3s;
 }
 
-.deleted_list{
-  display:flex;
-    flex-direction:column;
-    gap:12px;
+.btn-edit{
+    background:linear-gradient(
+        135deg,
+        #3b82f6,
+        #2563eb
+    );
 }
+
+.btn-edit:hover{
+    transform:translateY(-2px);
+}
+
+.btn-delete{
+    background:linear-gradient(
+        135deg,
+        #ef4444,
+        #dc2626
+    );
+}
+
+.btn-delete:hover{
+    transform:translateY(-2px);
+}
+
+/* ===========================
+   DELETED ACCOUNTS
+=========================== */
 
 .deleted_card{
     display:flex;
@@ -373,6 +382,7 @@
     gap:15px;
 
     padding:18px;
+
     border-radius:16px;
 
     background:linear-gradient(
@@ -381,23 +391,22 @@
         rgba(255,255,255,.02)
     );
 
-    border:1px solid rgba(255,255,255,.06);
+    border:1px solid var(--border);
 
     transition:.3s;
 }
 
 .deleted_card:hover{
     transform:translateY(-5px);
-    box-shadow:0 12px 25px rgba(0,0,0,.35);
+    box-shadow:0 12px 25px rgba(0,0,0,.3);
 }
 
 .deleted_card img{
     width:70px;
     height:70px;
+
     border-radius:50%;
     object-fit:cover;
-
-    border:3px solid rgba(255,255,255,.1);
 }
 
 .deleted_info{
@@ -406,47 +415,25 @@
 
 .deleted_info h3{
     color:#fff;
-    font-size:18px;
     margin-bottom:6px;
 }
 
 .deleted_info p{
-    color:#bdb9d7;
-    font-size:14px;
-    margin-bottom:8px;
-
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.deleted_info span{
-    display:inline-block;
-
-    padding:5px 10px;
-    border-radius:8px;
-
-    background:rgba(255,255,255,.06);
-    color:#9ea4ff;
-
-    font-size:12px;
+    color:#c4c6da;
 }
 
 .deleted_actions{
     display:flex;
     flex-direction:column;
-    gap:10px;
 }
 
 .btn-restore{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
     min-width:120px;
-    height:42px;
 
+    text-align:center;
     text-decoration:none;
+
+    padding:12px;
 
     border-radius:10px;
 
@@ -458,13 +445,10 @@
 
     color:#fff;
     font-weight:600;
-
-    transition:.3s;
 }
 
 .btn-restore:hover{
     transform:scale(1.05);
-    box-shadow:0 8px 20px rgba(0,230,118,.35);
 }
 
 .no_deleted{
@@ -473,13 +457,19 @@
     color:#9ca3af;
 }
 
-/* popup cập nhật */
+/* ===========================
+   MODAL
+=========================== */
+
 .modal{
     display:none;
+
     position:fixed;
     inset:0;
+
     background:rgba(0,0,0,.75);
-    backdrop-filter:blur(4px);
+    backdrop-filter:blur(5px);
+
     z-index:9999;
 }
 
@@ -487,31 +477,42 @@
     width:900px;
     max-width:95%;
     max-height:90vh;
+
     overflow-y:auto;
-    background:#1d1a3a;
-    padding:30px;
-    border-radius:16px;
+
     position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
-    box-shadow:0 15px 40px rgba(0,0,0,.4);
+
+    background:linear-gradient(
+        135deg,
+        #1d1a3a,
+        #26204b
+    );
+
+    padding:30px;
+    border-radius:18px;
+
+    border:1px solid var(--border);
+
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
 }
 
 .modal-content h2{
     color:#fff;
-    margin-bottom:25px;
     text-align:center;
+    margin-bottom:25px;
 }
 
 .close-modal{
     position:absolute;
-    right:20px;
     top:15px;
+    right:20px;
+
     color:#fff;
     font-size:30px;
     cursor:pointer;
-    transition:.3s;
 }
 
 .close-modal:hover{
@@ -530,78 +531,102 @@
 }
 
 .form-group label{
-    color:#d6d6d6;
+    color:#d5d8ea;
     margin-bottom:6px;
-    font-size:14px;
-    font-weight:500;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea{
     width:100%;
+
     padding:12px;
-    border:none;
+
+    border:1px solid transparent;
     border-radius:10px;
+
     background:#131129;
     color:#fff;
-    font-size:14px;
+
     outline:none;
+    transition:.3s;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus{
-    box-shadow:0 0 0 2px #6c63ff;
+    border-color:var(--primary);
 }
 
 .form-group textarea{
-    resize:vertical;
     min-height:120px;
+    resize:vertical;
 }
 
-/* Đường phân cách */
-#editAccountForm hr{
-    grid-column:1 / -1;
-    border:none;
-    height:1px;
-    background:rgba(255,255,255,.15);
-    margin:10px 0;
-}
-
-/* Bio full width */
 .form-group:has(textarea){
-    grid-column:1 / -1;
+    grid-column:1/-1;
 }
 
-/* Nút lưu full width */
 .btn-save{
-    grid-column:1 / -1;
-    background:linear-gradient(135deg,#4CAF50,#43a047);
-    color:#fff;
+    grid-column:1/-1;
+
     border:none;
-    padding:14px;
     border-radius:10px;
-    font-size:15px;
+
+    padding:14px;
+
+    background:linear-gradient(
+        135deg,
+        #4CAF50,
+        #43a047
+    );
+
+    color:#fff;
     font-weight:600;
     cursor:pointer;
-    transition:.3s;
 }
 
 .btn-save:hover{
     transform:translateY(-2px);
-    box-shadow:0 6px 18px rgba(76,175,80,.35);
 }
 
-/* Mobile */
-@media(max-width:768px){
+/* ===========================
+   PAGINATION
+=========================== */
 
-    #editAccountForm{
-        grid-template-columns:1fr;
-    }
+.pagination{
+    margin-top:25px;
 
-    .modal-content{
-        width:95%;
-        padding:20px;
-    }
+    display:flex;
+    justify-content:center;
+    gap:8px;
+
+    flex-wrap:wrap;
+}
+
+.pagination a{
+    width:40px;
+    height:40px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-decoration:none;
+
+    background:#26204b;
+    color:#fff;
+
+    border-radius:10px;
+
+    transition:.3s;
+}
+
+.pagination a:hover{
+    background:var(--primary);
+}
+
+.pagination a.active{
+    background:var(--primary);
+    color:#fff;
 }

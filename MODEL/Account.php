@@ -372,9 +372,9 @@ class Account
 
         return $stmt->get_result()->fetch_assoc();
     }
- public function getAccountById($accountId)
-{
-    $sql = "
+    public function getAccountById($accountId)
+    {
+        $sql = "
         SELECT
             a.account_id,
             a.username,
@@ -412,10 +412,38 @@ class Account
         LIMIT 1
     ";
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bind_param("i", $accountId);
-    $stmt->execute();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $accountId);
+        $stmt->execute();
 
-    return $stmt->get_result()->fetch_assoc();
-}
+        return $stmt->get_result()->fetch_assoc();
+    }
+    // Lấy danh sách tài khoản có phân trang
+    public function getAccountsPaginated($limit = 20, $offset = 0)
+    {
+        $sql = "
+        SELECT *
+        FROM accounts
+        WHERE is_deleted = 0
+        ORDER BY created_at DESC
+        LIMIT ? OFFSET ?
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->execute();
+
+        return $stmt->get_result();
+    }
+    // tính số trang
+    public function countAllAccounts()
+    {
+        $sql = "
+        SELECT COUNT(*) AS total
+        FROM accounts
+        WHERE is_deleted = 0
+    ";
+
+        return $this->conn->query($sql)->fetch_assoc()['total'];
+    }
 }

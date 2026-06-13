@@ -29,6 +29,13 @@ $totalSeller = $data['totalSeller'];
 $totalBuyer = $data['totalBuyer'];
 $deletedAccounts = $data['deletedAccounts'];
 $deletedTotal    = $data['deletedTotal'];
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+$accountPagination = $accountController->getAccountsPagination($page);
+
+$accounts = $accountPagination['accounts'];
+$totalPages = $accountPagination['total_pages'];
+$currentPage = $accountPagination['current_page'];
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -54,12 +61,12 @@ $deletedTotal    = $data['deletedTotal'];
             </a>
 
             <nav class="admin-nav">
-                <a href="admin.php" class="active">
+                <a href="admin.php">
                     <i class="fas fa-home"></i>
                     Dashboard
                 </a>
 
-                <a href="accounts.php">
+                <a href="accounts.php" class="active">
                     <i class="fas fa-users"></i>
                     Tài khoản
                 </a>
@@ -270,7 +277,7 @@ $deletedTotal    = $data['deletedTotal'];
 
                             <button
                                 class="btn-action btn-edit openEditModal"
-                                data-id="<?= $buyer['account_id']?>">
+                                data-id="<?= $buyer['account_id'] ?>">
                                 ✏️ Sửa
                             </button>
 
@@ -347,123 +354,193 @@ $deletedTotal    = $data['deletedTotal'];
             </div>
 
         </div>
+        <div class="list_all_accounts">
+
+            <div class="title_box">
+                <h2>📋 Tất Cả Tài Khoản</h2>
+            </div>
+
+            <div class="seller_list">
+
+                <?php while ($acc = mysqli_fetch_assoc($accounts)): ?>
+                    <div class="seller_card">
+
+                        <img
+                            src="<?= !empty($acc['avatar_url'])
+                                        ? $acc['avatar_url']
+                                        : '../assets/images/avatar/avatar.png' ?>"
+                            alt="avatar">
+
+                        <div class="seller_info">
+
+                            <a href="accounts_profile.php?id=<?= $acc['account_id'] ?>">
+                                <h3><?= htmlspecialchars($acc['username']) ?></h3>
+                            </a>
+
+                            <p><?= htmlspecialchars($acc['email']) ?></p>
+
+                            <span class="revenue">
+                                ID: <?= $acc['account_id'] ?>
+                            </span>
+
+                            <small>
+                                <?= $acc['created_at'] ?>
+                            </small>
+
+                        </div>
+
+                        <div class="seller_actions">
+
+                            <!-- SỬA -->
+                            <button
+                                class="btn-action btn-edit openEditModal"
+                                data-id="<?= $acc['account_id'] ?>">
+                                ✏️ Sửa
+                            </button>
+
+                            <!-- XÓA -->
+                            <a href="accounts_delete.php?id=<?= $acc['account_id'] ?>"
+                                class="btn-action btn-delete"
+                                onclick="return confirm('Bạn có chắc muốn xóa tài khoản này?')">
+                                🗑 Xóa
+                            </a>
+
+                        </div>
+
+                    </div>
+                <?php endwhile; ?>
+
+                <div class="pagination">
+
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+
+                        <a href="?page=<?= $i ?>"
+                            class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                            <?= $i ?>
+                        </a>
+
+                    <?php endfor; ?>
+
+                </div>
+
+            </div>
+        </div>
         <?php require '../includes/footer.php'; ?>
-    </div>
-    <div id="editModal" class="modal">
+        <div id="editModal" class="modal">
 
-        <div class="modal-content">
+            <div class="modal-content">
 
-            <span class="close-modal">&times;</span>
+                <span class="close-modal">&times;</span>
 
-            <h2>Cập Nhật Tài Khoản</h2>
+                <h2>Cập Nhật Tài Khoản</h2>
 
-            <form id="editAccountForm" method="POST"
-                action="../../CONTROLLER/controller_account.php">
+                <form id="editAccountForm" method="POST"
+                    action="../../CONTROLLER/controller_account.php">
 
-                <!-- Account -->
-                <input type="hidden" name="action" value="update">
-                <input type="hidden" name="account_id" id="account_id">
-                <input type="hidden" name="profile_id" id="profile_id">
+                    <!-- Account -->
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="account_id" id="account_id">
+                    <input type="hidden" name="profile_id" id="profile_id">
 
-                <div class="form-group">
-                    <label>Tên đăng nhập</label>
-                    <input type="text"
-                        name="username"
-                        id="username"
-                        required>
-                </div>
+                    <div class="form-group">
+                        <label>Tên đăng nhập</label>
+                        <input type="text"
+                            name="username"
+                            id="username"
+                            required>
+                    </div>
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email"
-                        name="email"
-                        id="email"
-                        required>
-                </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email"
+                            name="email"
+                            id="email"
+                            required>
+                    </div>
 
-                <div class="form-group">
-                    <label>Mật khẩu mới</label>
-                    <input type="password"
-                        name="password"
-                        id="password">
-                    <small>Để trống nếu không đổi mật khẩu</small>
-                </div>
+                    <div class="form-group">
+                        <label>Mật khẩu mới</label>
+                        <input type="password"
+                            name="password"
+                            id="password">
+                        <small>Để trống nếu không đổi mật khẩu</small>
+                    </div>
 
-                <div class="form-group">
-                    <label>Vai trò</label>
-                    <select name="role_id" id="role_id">
-                        <option value="1">Admin</option>
-                        <option value="2">User</option>
-                        <option value="3">Seller</option>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label>Vai trò</label>
+                        <select name="role_id" id="role_id">
+                            <option value="1">Admin</option>
+                            <option value="2">User</option>
+                            <option value="3">Seller</option>
+                        </select>
+                    </div>
 
-                <hr>
+                    <hr>
 
-                <!-- Profile -->
+                    <!-- Profile -->
 
-                <div class="form-group">
-                    <label>Họ</label>
-                    <input type="text"
-                        name="last_name"
-                        id="last_name">
-                </div>
+                    <div class="form-group">
+                        <label>Họ</label>
+                        <input type="text"
+                            name="last_name"
+                            id="last_name">
+                    </div>
 
-                <div class="form-group">
-                    <label>Tên đệm</label>
-                    <input type="text"
-                        name="middle_name"
-                        id="middle_name">
-                </div>
+                    <div class="form-group">
+                        <label>Tên đệm</label>
+                        <input type="text"
+                            name="middle_name"
+                            id="middle_name">
+                    </div>
 
-                <div class="form-group">
-                    <label>Tên</label>
-                    <input type="text"
-                        name="first_name"
-                        id="first_name">
-                </div>
+                    <div class="form-group">
+                        <label>Tên</label>
+                        <input type="text"
+                            name="first_name"
+                            id="first_name">
+                    </div>
 
-                <div class="form-group">
-                    <label>Giới tính</label>
-                    <select name="gender_id" id="gender_id">
-                        <option value="">-- Chọn --</option>
-                        <option value="1">Nam</option>
-                        <option value="2">Nữ</option>
-                        <option value="3">Khác</option>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select name="gender_id" id="gender_id">
+                            <option value="">-- Chọn --</option>
+                            <option value="1">Nam</option>
+                            <option value="2">Nữ</option>
+                            <option value="3">Khác</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label>Ngày sinh</label>
-                    <input type="date"
-                        name="date_of_birth"
-                        id="date_of_birth">
-                </div>
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="date"
+                            name="date_of_birth"
+                            id="date_of_birth">
+                    </div>
 
-                <div class="form-group">
-                    <label>Số điện thoại</label>
-                    <input type="text"
-                        name="phone"
-                        id="phone">
-                </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text"
+                            name="phone"
+                            id="phone">
+                    </div>
 
-                <div class="form-group">
-                    <label>Tiểu sử</label>
-                    <textarea name="bio"
-                        id="bio"
-                        rows="4"></textarea>
-                </div>
+                    <div class="form-group">
+                        <label>Tiểu sử</label>
+                        <textarea name="bio"
+                            id="bio"
+                            rows="4"></textarea>
+                    </div>
 
-                <button type="submit" class="btn-save">
-                    💾 Lưu Thay Đổi
-                </button>
+                    <button type="submit" class="btn-save">
+                        💾 Lưu Thay Đổi
+                    </button>
 
-            </form>
+                </form>
+
+            </div>
 
         </div>
-
     </div>
-
     <script src="../js/acounts.js?v=<?= time() ?>"></script>
 </body>
 

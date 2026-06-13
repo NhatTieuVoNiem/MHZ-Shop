@@ -6,8 +6,8 @@ $totalProducts = $totalProducts ?? 0;
 
 $fullName = trim(
     ($user['last_name'] ?? '') . ' ' .
-    ($user['middle_name'] ?? '') . ' ' .
-    ($user['first_name'] ?? '')
+        ($user['middle_name'] ?? '') . ' ' .
+        ($user['first_name'] ?? '')
 );
 
 if ($fullName === '') {
@@ -104,17 +104,15 @@ $avatar = !empty($user['avatar_url'])
     </div>
 
     <div class="product-grid">
-<?php if (!empty($products)): ?>
-    <?php foreach ($products as $item): ?>
-        <?php include __DIR__ . '/product-card.php'; ?>
-    <?php endforeach; ?>
-<?php else: ?>
-    <div class="empty-product">
-        <p>Người dùng chưa đăng sản phẩm nào.</p>
-    </div>
-<?php endif; ?>
-
-
+        <?php if (!empty($products)): ?>
+            <?php foreach ($products as $item): ?>
+                <?php include __DIR__ . '/product-card.php'; ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="empty-product">
+                <p>Người dùng chưa đăng sản phẩm nào.</p>
+            </div>
+        <?php endif; ?>
     </div>
 
 </div>

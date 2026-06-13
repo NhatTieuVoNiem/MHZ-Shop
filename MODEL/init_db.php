@@ -57,6 +57,7 @@ $tables = [
         price DECIMAL(10,2) NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         preview_url VARCHAR(255),
+        status TINYINT(1) NOT NULL DEFAULT 1,
         CONSTRAINT fk_product_category FOREIGN KEY (category_id) REFERENCES categories(category_id),
         CONSTRAINT fk_product_account FOREIGN KEY (account_id) REFERENCES accounts(account_id)
     )",

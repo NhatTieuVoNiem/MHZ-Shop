@@ -41,11 +41,17 @@ class Product
         return $stmt->execute();
     }
 
-    // Xóa product theo ID
+    // gỡ product theo ID
     public function delete(int $product_id)
     {
-        $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE product_id=?");
+        $stmt = $this->conn->prepare("
+        UPDATE {$this->table}
+        SET status = 0
+        WHERE product_id = ?
+    ");
+
         $stmt->bind_param("i", $product_id);
+
         return $stmt->execute();
     }
     // lấy sản phẩm top
@@ -346,5 +352,18 @@ class Product
         $stmt->execute();
 
         return $stmt->get_result()->fetch_assoc()['total'];
+    }
+    // khôi phục sản phẩm
+    public function restore(int $product_id)
+    {
+        $stmt = $this->conn->prepare("
+        UPDATE {$this->table}
+        SET status = 1
+        WHERE product_id = ?
+    ");
+
+        $stmt->bind_param("i", $product_id);
+
+        return $stmt->execute();
     }
 }

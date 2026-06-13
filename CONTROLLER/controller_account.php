@@ -139,6 +139,20 @@ class controller_account
     {
         return $this->accountModel->getAccountById($accountId);
     }
+    public function getAccountsPagination($page = 1, $limit = 20)
+    {
+        $offset = ($page - 1) * $limit;
+
+        $accounts = $this->accountModel->getAccountsPaginated($limit, $offset);
+        $total = $this->accountModel->countAllAccounts();
+
+        return [
+            'accounts' => $accounts,
+            'total' => $total,
+            'total_pages' => ceil($total / $limit),
+            'current_page' => $page
+        ];
+    }
 }
 
 $controller = new controller_account($conn);
