@@ -56,11 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 case 1:
                     header("Location: ../VIEW/page/admin.php");
                     break;
-                case 2:
-                    header("Location: ../VIEW/page/seller.php");
-                    break;
-                default: // role_id = 3 hoặc bất kỳ role nào khác → user thường
+                     case 2:
                     header("Location: ../VIEW/page/user.php");
+                    break;
+                case 3:
+                    header("Location: ../VIEW/page/seller.php");
                     break;
             }
             exit();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Thẻ sản phẩm dùng lại trên products.php
  * @var array   $item          Một dòng sản phẩm từ DB
@@ -21,7 +22,11 @@
       </div>
       <div class="fames__line">
         <span><?= date("d/m/Y", strtotime($item['created_at'])) ?></span>
-        <span><?= $productModel->countViews($item['product_id']) ?></span>
+        <span>
+          <?= isset($productModel)
+            ? $productModel->countViews($item['product_id'])
+            : 0 ?>
+        </span>
       </div>
     </div>
     <?php /* POST trackView → controller_products_view.php → redirect trang chi tiết */ ?>

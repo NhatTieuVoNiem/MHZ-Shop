@@ -1,12 +1,19 @@
+<?php
+$homePage = "./user.php";
+
+if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3) {
+    $homePage = "./seller.php";
+}
+?>
 <nav class="nav-menu" aria-label="Sidebar navigation">
-    <a href="./user.php" class="logo">
+    <a href="<?= $homePage ?>" class="logo">
         <img src="<?= BASE_URL ?>assets/images/logo/Logo.png" alt="Game Shop Logo">
     </a>
 
     <ul class="menu">
 
         <li>
-            <a href="./user.php">
+            <a href="<?= $homePage ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                 </svg>
