@@ -366,4 +366,48 @@ class Product
 
         return $stmt->execute();
     }
+    // Tổng sản phẩm
+public function countAll()
+{
+    $sql = "
+        SELECT COUNT(*) total
+        FROM products
+        WHERE status = 1
+    ";
+
+    return $this->conn->query($sql)->fetch_assoc()['total'];
+}
+
+// Top sản phẩm bán chạy
+public function getTopSellingProducts($limit = 5)
+{
+    $sql = "
+        SELECT
+            p.product_id,
+            p.product_name,
+            c.category_name,
+            SUM(oi.quantity) total_sold,
+            SUM(oi.quantity * p.price) revenue
+
+        FROM products p
+
+        JOIN order_items oi
+            ON p.product_id = oi.product_id
+
+        LEFT JOIN categories c
+            ON p.category_id = c.category_id
+
+        GROUP BY p.product_id
+
+        ORDER BY revenue DESC
+
+        LIMIT ?
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $limit);
+    $stmt->execute();
+
+    return $stmt->get_result();
+}
 }

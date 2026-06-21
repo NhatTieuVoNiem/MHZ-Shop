@@ -1,0 +1,207 @@
+/* ---------- WRAPPER / LAYOUT ---------- */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #0d0b1e;
+}
+
+/* ---------- HEADER (giữ nguyên từ file gốc) ---------- */
+.admin-header {
+    height: 70px;
+    background: #131129;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.logo h2 {
+    color: #8b5cf6;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.admin-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-nav a {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    transition: .3s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.admin-nav a:hover,
+.admin-nav a.active {
+    background: #8b5cf6;
+    color: #fff;
+}
+
+.admin-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-user img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #8b5cf6;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info .name {
+    color: #fff;
+    font-weight: 600;
+}
+
+.user-info small {
+    color: #94a3b8;
+}
+
+.logout-btn {
+    text-decoration: none;
+    color: #fff;
+    background: #ef4444;
+    padding: 10px 16px;
+    border-radius: 10px;
+    transition: .3s;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+}
+
+.order-detail-container{
+padding:30px 60px;
+}
+
+.detail-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.detail-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-bottom:20px;
+}
+
+.detail-card{
+background:#171923;
+border:1px solid #242938;
+border-radius:16px;
+padding:24px;
+margin-bottom:20px;
+}
+
+.detail-card h3{
+margin-bottom:20px;
+}
+
+.info-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:12px;
+}
+
+.price{
+color:#8b5cf6;
+font-size:20px;
+}
+
+.customer-box{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.avatar{
+width:60px;
+height:60px;
+border-radius:50%;
+background:#8b5cf6;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.products-table{
+width:100%;
+border-collapse:collapse;
+}
+
+.products-table th,
+.products-table td{
+padding:15px;
+border-bottom:1px solid #242938;
+}
+
+.product-info{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.product-info img{
+width:60px;
+height:60px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.btn-back,
+.btn-save{
+background:#8b5cf6;
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+text-decoration:none;
+cursor:pointer;
+}
+
+.badge.completed{
+color:#22c55e;
+}
+
+.badge.processing{
+color:#06b6d4;
+}
+
+.badge.pending{
+color:#f59e0b;
+}
+
+.badge.cancelled{
+color:#ef4444;
+}

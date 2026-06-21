@@ -446,4 +446,51 @@ class Account
 
         return $this->conn->query($sql)->fetch_assoc()['total'];
     }
+    // Khách hàng mới tháng này
+public function countNewCustomersThisMonth()
+{
+    $sql = "
+        SELECT COUNT(*) total
+        FROM accounts
+        WHERE role_id = 3
+        AND MONTH(created_at)=MONTH(CURDATE())
+        AND YEAR(created_at)=YEAR(CURDATE())
+    ";
+
+    return $this->conn->query($sql)->fetch_assoc()['total'];
+}
+// Top khách hàng chi tiêu nhiều nhất
+public function getTopCustomers($limit = 5)
+{
+    $sql = "
+        SELECT
+            a.account_id,
+            a.username,
+            a.email,
+
+            COUNT(o.order_id) total_orders,
+
+            COALESCE(
+                SUM(o.total_amount),
+                0
+            ) total_spent
+
+        FROM accounts a
+
+        JOIN orders o
+            ON a.account_id = o.account_id
+
+        GROUP BY a.account_id
+
+        ORDER BY total_spent DESC
+
+        LIMIT ?
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $limit);
+    $stmt->execute();
+
+    return $stmt->get_result();
+}
 }

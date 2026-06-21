@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Section Trending Bids (trang chủ)
  * Hiển thị sản phẩm có lượt xem cao; nút "Xem chi tiết" gửi form trackView qua productsView.js
@@ -13,7 +14,7 @@ $products = $productModel->getTrendingProducts();
   <div class="section__head">
     <h2 class="section__head--title">Trending Bids</h2>
 
-       <a
+    <a
       href="<?= BASE_URL ?>page/products.php"
       class="view-more">
       >> Xem thêm
@@ -68,13 +69,13 @@ $products = $productModel->getTrendingProducts();
               <input type="hidden" name="product_id" id="detail-product-id" value="">
               <input type="hidden" name="redirect_url" id="detail-redirect-url" value="">
             </form>
-          <a
-  href="javascript:void(0)"
-  class="btn btn-detail"
-  data-product-id="<?= htmlspecialchars($item['product_id']) ?>"
-  data-detail-url="<?= BASE_URL ?>../VIEW/page/productsDetails.php?id=<?= $item['product_id'] ?>">
-  Xem chi tiết
-</a>
+            <a
+              href="javascript:void(0)"
+              class="btn btn-detail"
+              data-product-id="<?= htmlspecialchars($item['product_id']) ?>"
+              data-detail-url="<?= BASE_URL ?>../VIEW/page/productsDetails.php?id=<?= $item['product_id'] ?>">
+              Xem chi tiết
+            </a>
 
           </div>
 
