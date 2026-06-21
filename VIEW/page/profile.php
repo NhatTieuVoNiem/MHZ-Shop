@@ -11,9 +11,9 @@ require_once "../../CONTROLLER/controller_profile.php";
 $profileController = new ControllerProfile($conn);
 
 if (isset($_SESSION['account_id'])) {
-    $account_id = $_SESSION['account_id'];
+  $account_id = $_SESSION['account_id'];
 } else {
-    $account_id = 0;
+  $account_id = 0;
 }
 
 $data = $profileController->getProfileData($account_id);
@@ -23,11 +23,11 @@ $products = $data['products'];
 $totalProducts = $data['totalProducts'];
 
 $fullName =
-    trim(
-        ($user['last_name'] ?? '') . ' ' .
-        ($user['middle_name'] ?? '') . ' ' .
-        ($user['first_name'] ?? '')
-    );
+  trim(
+    ($user['last_name'] ?? '') . ' ' .
+      ($user['middle_name'] ?? '') . ' ' .
+      ($user['first_name'] ?? '')
+  );
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -49,13 +49,19 @@ $fullName =
 
 <body>
   <div class="wrapper">
-    <?php require '../includes/nav-menu.php'; ?>
+    <?php
+    if (isset($_SESSION['account_id'])) {
+      require '../includes/nav_menu_login.php';
+    } else {
+      require '../includes/nav-menu.php';
+    }
+    ?>
     <div class="content">
       <?php require '../includes/header.php'; ?>
 
       <?php require '../includes/profile.php'; ?>
 
-       <?php require '../includes/footer.php'; ?>
+      <?php require '../includes/footer.php'; ?>
     </div>
 
   </div>

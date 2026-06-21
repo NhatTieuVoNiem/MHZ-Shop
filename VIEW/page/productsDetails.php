@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Đường dẫn gốc (dùng khi include từ các trang con)
 define('BASE_PATH', __DIR__);
 define('BASE_URL', '../');
@@ -23,7 +24,14 @@ define('BASE_URL', '../');
 
 <body>
     <div class="wrapper">
-        <?php require '../includes/nav-menu.php'; ?>
+        <?php
+        if (isset($_SESSION['account_id'])) {
+            require '../includes/nav_menu_login.php';
+        } else {
+            require '../includes/nav-menu.php';
+        }
+        ?>
+
         <div class="content">
             <?php require '../includes/header.php'; ?>
 
@@ -156,7 +164,7 @@ define('BASE_URL', '../');
                         <span>Giá hiện tại</span>
 
                         <h2>
-                            <?= htmlspecialchars($product['price']) ?> ETH
+                            <?= htmlspecialchars($product['price']) ?> VNĐ
                         </h2>
 
                     </div>
@@ -164,13 +172,37 @@ define('BASE_URL', '../');
                     <!-- ACTION -->
                     <div class="product-actions">
 
-                        <a href="#" class="btn-buy buy-btn">
-                            Đặt mua
-                        </a>
+                        <form
+                            action="<?= BASE_URL ?>../CONTROLLER/controller_cart.php"
+                            method="POST"
+                            style="display:inline">
 
-                        <a href="#" class="btn-like">
-                            Yêu thích
-                        </a>
+                            <input
+                                type="hidden"
+                                name="product_id"
+                                value="<?= $product['product_id'] ?>">
+
+                            <button type="submit" class="btn-buy buy-btn">
+                                Thêm vào giỏ hàng
+                            </button>
+
+                        </form>
+
+                        <form
+                            action="<?= BASE_URL ?>../CONTROLLER/controller_like.php"
+                            method="POST"
+                            style="display:inline">
+
+                            <input
+                                type="hidden"
+                                name="product_id"
+                                value="<?= $product['product_id'] ?>">
+
+                            <button type="submit" class="btn-like">
+                                Yêu thích
+                            </button>
+
+                        </form>
                         <form id="preview-form" method="POST" action="<?= BASE_URL ?>../CONTROLLER/controller_products_view.php">
                             <input type="hidden" name="action" value="trackView">
                             <input type="hidden" name="product_id" id="form-product-id" value="">
@@ -274,7 +306,9 @@ define('BASE_URL', '../');
     </div>
     <script src="<?= BASE_URL ?>js/theme.js?v=<?= time() ?>"></script>
     <script src="<?= BASE_URL ?>js/toggle.js?v=<?= time() ?>"></script>
-    <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
+    <?php if (!isset($_SESSION['account_id'])): ?>
+        <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
+    <?php endif; ?>
     <script src="<?= BASE_URL ?>js/productsView.js?v=<?= time() ?>"></script>
     <script src="<?= BASE_URL ?>js/productsDetails.js?v=<?= time() ?>"></script>
 </body>

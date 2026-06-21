@@ -33,5 +33,17 @@ class Cart {
         $stmt->bind_param("i", $cart_id);
         return $stmt->execute();
     }
+    public function getByAccountId($account_id)
+{
+    $stmt = $this->conn->prepare("
+        SELECT * FROM {$this->table}
+        WHERE account_id=?
+    ");
+
+    $stmt->bind_param("i", $account_id);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_assoc();
+}
 }
 ?>

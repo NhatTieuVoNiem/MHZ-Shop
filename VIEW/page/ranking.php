@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Trang Bảng xếp hạng / Dashboard thống kê
  * - Cột trái: thẻ Trending Bids (sản phẩm, lượt xem, lượt thích + % tăng trưởng)
@@ -6,7 +7,7 @@
  * - Cột phải: biểu đồ donut tỷ lệ đơn đã bán / đã hủy
  * - Phía dưới: danh sách top sản phẩm theo lượt xem
  */
-
+session_start();
 define('BASE_PATH', __DIR__);
 define('BASE_URL', '../');
 require_once("../../MODEL/connect.php");
@@ -17,33 +18,33 @@ $productModel = new Product($conn);
 /** Định dạng số lớn dạng rút gọn: 24000 → "24K", 1500000 → "1.5M */
 function formatCompactNumber(int|float $value): string
 {
-    if ($value >= 1000000) {
-        return round($value / 1000000, 1) . 'M';
-    }
-    if ($value >= 1000) {
-        return round($value / 1000, 1) . 'K';
-    }
-    return (string) (int) $value;
+  if ($value >= 1000000) {
+    return round($value / 1000000, 1) . 'M';
+  }
+  if ($value >= 1000) {
+    return round($value / 1000, 1) . 'K';
+  }
+  return (string) (int) $value;
 }
 
 /** Tính % thay đổi giữa kỳ hiện tại và kỳ trước (dùng cho mũi tên xanh/đỏ trên thẻ) */
 function calcGrowthPercent(int $current, int $previous): float
 {
-    if ($previous <= 0) {
-        return $current > 0 ? 100.0 : 0.0;
-    }
-    return (($current - $previous) / $previous) * 100;
+  if ($previous <= 0) {
+    return $current > 0 ? 100.0 : 0.0;
+  }
+  return (($current - $previous) / $previous) * 100;
 }
 
 /** Thực thi câu COUNT(*) và trả về số nguyên; lỗi SQL thì trả 0 */
 function fetchCount(mysqli $conn, string $sql): int
 {
-    $result = $conn->query($sql);
-    if (!$result) {
-        return 0;
-    }
-    $row = $result->fetch_assoc();
-    return (int) ($row['total'] ?? 0);
+  $result = $conn->query($sql);
+  if (!$result) {
+    return 0;
+  }
+  $row = $result->fetch_assoc();
+  return (int) ($row['total'] ?? 0);
 }
 
 // ── Tổng tích lũy (hiển thị trên 3 thẻ Trending Bids) ─────────────────────
@@ -53,80 +54,80 @@ $totalLikes = fetchCount($conn, "SELECT COUNT(*) AS total FROM product_likes");
 
 // ── Số liệu tuần này vs tuần trước (để tính % tăng/giảm) ─────────────────
 $productsThisWeek = fetchCount(
-    $conn,
-    "SELECT COUNT(*) AS total FROM products WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)"
+  $conn,
+  "SELECT COUNT(*) AS total FROM products WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)"
 );
 $productsLastWeek = fetchCount(
-    $conn,
-    "SELECT COUNT(*) AS total FROM products
+  $conn,
+  "SELECT COUNT(*) AS total FROM products
      WHERE created_at >= DATE_SUB(NOW(), INTERVAL 14 DAY)
        AND created_at < DATE_SUB(NOW(), INTERVAL 7 DAY)"
 );
 
 $viewsThisWeek = fetchCount(
-    $conn,
-    "SELECT COUNT(*) AS total FROM product_views WHERE viewed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)"
+  $conn,
+  "SELECT COUNT(*) AS total FROM product_views WHERE viewed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)"
 );
 $viewsLastWeek = fetchCount(
-    $conn,
-    "SELECT COUNT(*) AS total FROM product_views
+  $conn,
+  "SELECT COUNT(*) AS total FROM product_views
      WHERE viewed_at >= DATE_SUB(NOW(), INTERVAL 14 DAY)
        AND viewed_at < DATE_SUB(NOW(), INTERVAL 7 DAY)"
 );
 
 $likesThisWeek = fetchCount(
-    $conn,
-    "SELECT COUNT(*) AS total FROM product_likes WHERE liked_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)"
+  $conn,
+  "SELECT COUNT(*) AS total FROM product_likes WHERE liked_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)"
 );
 $likesLastWeek = fetchCount(
-    $conn,
-    "SELECT COUNT(*) AS total FROM product_likes
+  $conn,
+  "SELECT COUNT(*) AS total FROM product_likes
      WHERE liked_at >= DATE_SUB(NOW(), INTERVAL 14 DAY)
        AND liked_at < DATE_SUB(NOW(), INTERVAL 7 DAY)"
 );
 
 /** Cấu hình 3 thẻ bên trái dashboard — mỗi phần tử render một .bid-card */
 $trendingBids = [
-    [
-        'icon' => 'fa-wallet',
-        'color' => 'purple',
-        'value' => formatCompactNumber($totalProducts),
-        'label' => 'Sản phẩm',
-        'change' => calcGrowthPercent($productsThisWeek, $productsLastWeek),
-    ],
-    [
-        'icon' => 'fa-eye',
-        'color' => 'red',
-        'value' => formatCompactNumber($totalViews),
-        'label' => 'Lượt xem',
-        'change' => calcGrowthPercent($viewsThisWeek, $viewsLastWeek),
-    ],
-    [
-        'icon' => 'fa-heart',
-        'color' => 'green',
-        'value' => formatCompactNumber($totalLikes),
-        'label' => 'Lượt thích',
-        'change' => calcGrowthPercent($likesThisWeek, $likesLastWeek),
-    ],
+  [
+    'icon' => 'fa-wallet',
+    'color' => 'purple',
+    'value' => formatCompactNumber($totalProducts),
+    'label' => 'Sản phẩm',
+    'change' => calcGrowthPercent($productsThisWeek, $productsLastWeek),
+  ],
+  [
+    'icon' => 'fa-eye',
+    'color' => 'red',
+    'value' => formatCompactNumber($totalViews),
+    'label' => 'Lượt xem',
+    'change' => calcGrowthPercent($viewsThisWeek, $viewsLastWeek),
+  ],
+  [
+    'icon' => 'fa-heart',
+    'color' => 'green',
+    'value' => formatCompactNumber($totalLikes),
+    'label' => 'Lượt thích',
+    'change' => calcGrowthPercent($likesThisWeek, $likesLastWeek),
+  ],
 ];
 
 // ── Dữ liệu biểu đồ donut (Statistics) ───────────────────────────────────
 $ordersSold = fetchCount(
-    $conn,
-    "SELECT COUNT(*) AS total FROM orders
+  $conn,
+  "SELECT COUNT(*) AS total FROM orders
      WHERE status IN ('completed', 'delivered', 'paid', 'success')"
 );
 $ordersCancelled = fetchCount(
-    $conn,
-    "SELECT COUNT(*) AS total FROM orders
+  $conn,
+  "SELECT COUNT(*) AS total FROM orders
      WHERE status IN ('cancelled', 'canceled', 'cancel')"
 );
 // Chưa có đơn hàng thì dùng tỷ lệ mẫu 75/25 để chart không trống
 if ($ordersSold + $ordersCancelled <= 0) {
-    $ordersSold = 75;
-    $ordersCancelled = 25;
+  $ordersSold = 75;
+  $ordersCancelled = 25;
 } elseif ($ordersCancelled <= 0) {
-    $ordersCancelled = max(1, (int) round($ordersSold * 0.25));
+  $ordersCancelled = max(1, (int) round($ordersSold * 0.25));
 }
 
 // ── Dữ liệu biểu đồ đường ETH Price ──────────────────────────────────────
@@ -141,14 +142,14 @@ $priceResult = $conn->query("
 ");
 
 if ($priceResult && $priceResult->num_rows > 0) {
-    while ($row = $priceResult->fetch_assoc()) {
-        $ethLabels[] = $row['label'];
-        $ethValues[] = (float) $row['avg_price'];
-    }
+  while ($row = $priceResult->fetch_assoc()) {
+    $ethLabels[] = $row['label'];
+    $ethValues[] = (float) $row['avg_price'];
+  }
 } else {
-    // Dữ liệu mặc định khi chưa có sản phẩm — Chart.js vẫn vẽ được
-    $ethLabels = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN', 'T2'];
-    $ethValues = [0, 100, 90, 150, 140, 200, 180, 210];
+  // Dữ liệu mặc định khi chưa có sản phẩm — Chart.js vẫn vẽ được
+  $ethLabels = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN', 'T2'];
+  $ethValues = [0, 100, 90, 150, 140, 200, 180, 210];
 }
 
 // Cấu hình trục Y truyền sang ranking.js qua data-max / data-step
@@ -156,7 +157,7 @@ $ethMax = max($ethValues) > 0 ? max($ethValues) : 350;
 $ethStep = $ethMax <= 100 ? 20 : 50;
 $ethAxisMax = (int) (ceil($ethMax / $ethStep) * $ethStep);
 if ($ethAxisMax < 50) {
-    $ethAxisMax = 50;
+  $ethAxisMax = 50;
 }
 
 // Top 6 sản phẩm xem nhiều nhất (phần lưới phía dưới trang)
@@ -182,7 +183,13 @@ $trendingProducts = $productModel->getTrendingProducts(6);
 
 <body>
   <div class="wrapper">
-    <?php require '../includes/nav-menu.php'; ?>
+    <?php
+    if (isset($_SESSION['account_id'])) {
+      require '../includes/nav_menu_login.php';
+    } else {
+      require '../includes/nav-menu.php';
+    }
+    ?>
     <div class="content">
       <?php require '../includes/header.php'; ?>
 

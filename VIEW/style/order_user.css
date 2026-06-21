@@ -1,0 +1,184 @@
+.body{
+    padding:30px;
+}
+
+.orders-page{
+    max-width:1200px;
+    margin:auto;
+}
+
+.orders-header{
+    margin-bottom:30px;
+}
+
+.orders-header h1{
+    font-size:32px;
+}
+
+.orders-list{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+.order-card{
+    background:var(--white);
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.order-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:20px;
+    border-bottom:1px solid var(--gray--20);
+}
+
+.order-top h3{
+    font-size:20px;
+    margin-bottom:6px;
+}
+
+.status{
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.completed{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.pending{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.cancelled{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.order-products{
+    padding:20px 0;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.product-item{
+    display:flex;
+    gap:16px;
+    align-items:center;
+}
+
+.product-item img{
+    width:80px;
+    height:80px;
+    border-radius:12px;
+    object-fit:cover;
+}
+
+.product-item h4{
+    margin-bottom:6px;
+}
+
+.order-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:1px solid var(--gray--20);
+    padding-top:20px;
+}
+
+.total-price{
+    font-size:18px;
+}
+
+.total-price strong{
+    color:var(--purple--60);
+}
+
+.order-actions{
+    display:flex;
+    gap:12px;
+}
+
+.btn-detail,
+.btn-download{
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.btn-detail{
+    background:var(--purple--60);
+    color:white;
+}
+
+.btn-download{
+    background:var(--gray--10);
+    color:var(--black);
+}
+.account-active-card{
+    margin-top:40px;
+    padding:28px;
+    border-radius:24px;
+    display:flex;
+    align-items:center;
+    gap:24px;
+    background:linear-gradient(
+        135deg,
+        rgba(124,58,237,.15),
+        rgba(59,130,246,.15)
+    );
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.active-icon{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    background:#7c3aed;
+    color:#fff;
+    flex-shrink:0;
+}
+
+.active-info h3{
+    font-size:2rem;
+    margin-bottom:10px;
+}
+
+.active-days{
+    font-size:3.2rem;
+    font-weight:700;
+    color:#7c3aed;
+    line-height:1;
+}
+
+.active-days span{
+    font-size:1.6rem;
+    font-weight:500;
+    color:var(--text-color);
+}
+
+.active-info p{
+    margin-top:12px;
+    opacity:.8;
+}
+
+@media (max-width:768px){
+    .account-active-card{
+        flex-direction:column;
+        text-align:center;
+    }
+}

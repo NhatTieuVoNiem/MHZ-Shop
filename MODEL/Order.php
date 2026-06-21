@@ -22,10 +22,28 @@ class Order
     }
 
     // Tạo mới một order
-    public function create(int $account_id, string $order_date, float $total_amount, string $status)
-    {
-        $stmt = $this->conn->prepare("INSERT INTO {$this->table} (account_id, order_date, total_amount, status) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isds", $account_id, $order_date, $total_amount, $status);
+    public function create(
+        int $account_id,
+        float $total_amount,
+        string $status
+    ) {
+        $stmt = $this->conn->prepare("
+        INSERT INTO {$this->table}
+        (
+            account_id,
+            total_amount,
+            status
+        )
+        VALUES (?, ?, ?)
+    ");
+
+        $stmt->bind_param(
+            "ids",
+            $account_id,
+            $total_amount,
+            $status
+        );
+
         return $stmt->execute();
     }
 
@@ -179,20 +197,20 @@ class Order
         return $stmt->get_result();
     }
     // Tổng doanh thu
-public function getTotalRevenue()
-{
-    $sql = "
+    public function getTotalRevenue()
+    {
+        $sql = "
         SELECT COALESCE(SUM(total_amount),0) total
         FROM orders
         WHERE status = 'completed'
     ";
 
-    return $this->conn->query($sql)->fetch_assoc()['total'];
-}
-// Doanh thu theo tháng
-public function getRevenueByMonth()
-{
-    $sql = "
+        return $this->conn->query($sql)->fetch_assoc()['total'];
+    }
+    // Doanh thu theo tháng
+    public function getRevenueByMonth()
+    {
+        $sql = "
         SELECT
             MONTH(created_at) month_num,
             SUM(total_amount) revenue,
@@ -207,12 +225,12 @@ public function getRevenueByMonth()
         ORDER BY month_num
     ";
 
-    return $this->conn->query($sql);
-}
-// Thống kê trạng thái đơn hàng
-public function getStatusStatistics()
-{
-    $sql = "
+        return $this->conn->query($sql);
+    }
+    // Thống kê trạng thái đơn hàng
+    public function getStatusStatistics()
+    {
+        $sql = "
         SELECT
             status,
             COUNT(*) total
@@ -220,12 +238,12 @@ public function getStatusStatistics()
         GROUP BY status
     ";
 
-    return $this->conn->query($sql);
-}
-// Tỷ lệ hoàn thành
-public function getCompletionRate()
-{
-    $sql = "
+        return $this->conn->query($sql);
+    }
+    // Tỷ lệ hoàn thành
+    public function getCompletionRate()
+    {
+        $sql = "
         SELECT
         ROUND(
             (
@@ -243,8 +261,62 @@ public function getCompletionRate()
         FROM orders
     ";
 
-    $result = $this->conn->query($sql);
+        $result = $this->conn->query($sql);
 
-    return $result->fetch_assoc()['rate'] ?? 0;
-}
+        return $result->fetch_assoc()['rate'] ?? 0;
+    }
+    public function createAndGetId(
+        int $account_id,
+        float $total_amount,
+        string $status
+    ) {
+        $stmt = $this->conn->prepare("
+        INSERT INTO {$this->table}
+        (
+            account_id,
+            total_amount,
+            status
+        )
+        VALUES (?, ?, ?)
+    ");
+
+        $stmt->bind_param(
+            "ids",
+            $account_id,
+            $total_amount,
+            $status
+        );
+
+        $stmt->execute();
+
+        return $this->conn->insert_id;
+    }
+    public function getOrdersByAccount($accountId)
+    {
+        $sql = "
+        SELECT *
+        FROM orders
+        WHERE account_id = ?
+        ORDER BY created_at DESC
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $accountId);
+        $stmt->execute();
+
+        return $stmt->get_result();
+    }
+    public function countItems($orderId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT SUM(quantity) total
+        FROM order_items
+        WHERE order_id = ?
+    ");
+
+        $stmt->bind_param("i", $orderId);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc()['total'] ?? 0;
+    }
 }

@@ -18,11 +18,31 @@ class OrderItem {
     }
 
     // Tạo mới một order_item
-    public function create(int $order_id, int $product_id, int $quantity, float $price) {
-        $stmt = $this->conn->prepare("INSERT INTO {$this->table} (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("iiid", $order_id, $product_id, $quantity, $price);
-        return $stmt->execute();
-    }
+   public function create(
+    int $order_id,
+    int $product_id,
+    int $quantity
+)
+{
+    $stmt = $this->conn->prepare("
+        INSERT INTO {$this->table}
+        (
+            order_id,
+            product_id,
+            quantity
+        )
+        VALUES (?, ?, ?)
+    ");
+
+    $stmt->bind_param(
+        "iii",
+        $order_id,
+        $product_id,
+        $quantity
+    );
+
+    return $stmt->execute();
+}
 
     // Cập nhật order_item theo ID
     public function update(int $order_item_id, int $order_id, int $product_id, int $quantity, float $price) {

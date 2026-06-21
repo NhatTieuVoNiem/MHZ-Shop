@@ -37,5 +37,29 @@ class ProductLike {
         $stmt->bind_param("i", $like_id);
         return $stmt->execute();
     }
+    public function checkLike($account_id, $product_id)
+{
+    $stmt = $this->conn->prepare("
+        SELECT * FROM {$this->table}
+        WHERE account_id=? AND product_id=?
+    ");
+
+    $stmt->bind_param("ii", $account_id, $product_id);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_assoc();
+}
+
+public function removeLike($account_id, $product_id)
+{
+    $stmt = $this->conn->prepare("
+        DELETE FROM {$this->table}
+        WHERE account_id=? AND product_id=?
+    ");
+
+    $stmt->bind_param("ii", $account_id, $product_id);
+
+    return $stmt->execute();
+}
 }
 ?>
