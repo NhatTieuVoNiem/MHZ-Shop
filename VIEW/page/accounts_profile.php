@@ -90,81 +90,82 @@ if ($products instanceof mysqli_result) {
 
 <body>
 
-<div class="wrapper">
+    <div class="wrapper">
 
-    <!-- HEADER -->
-    <div class="admin-header">
+        <!-- HEADER -->
+        <div class="admin-header">
 
-        <a href="admin.php" class="logo">
-            <h2>MHZ Admin</h2>
-        </a>
-
-        <nav class="admin-nav">
-            <a href="admin.php">
-                <i class="fas fa-home"></i>
-                Dashboard
+            <a href="admin.php" class="logo">
+                <h2>MHZ Admin</h2>
             </a>
 
-            <a href="accounts.php" class="active">
-                <i class="fas fa-users"></i>
-                Tài khoản
-            </a>
+            <nav class="admin-nav">
+                <a href="admin.php">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
 
-            <a href="products-admin.php">
-                <i class="fas fa-gamepad"></i>
-                Sản phẩm
-            </a>
+                <a href="accounts.php" class="active">
+                    <i class="fas fa-users"></i>
+                    Tài khoản
+                </a>
 
-            <a href="orders.php">
-                <i class="fas fa-shopping-cart"></i>
-                Đơn hàng
-            </a>
+                <a href="products-admin.php">
+                    <i class="fas fa-gamepad"></i>
+                    Sản phẩm
+                </a>
 
-            <a href="reports.php">
-                <i class="fas fa-chart-line"></i>
-                Báo cáo
-            </a>
-        </nav>
+                <a href="orders.php">
+                    <i class="fas fa-shopping-cart"></i>
+                    Đơn hàng
+                </a>
 
-        <div class="admin-user">
+                <a href="reports.php">
+                    <i class="fas fa-chart-line"></i>
+                    Báo cáo
+                </a>
+            </nav>
 
-            <?php if (!empty($_SESSION['avatar_url'])): ?>
+            <div class="admin-user">
 
-                <img
-                    src="<?= BASE_URL . 'assets/images/avatar/' . $_SESSION['avatar_url'] ?>"
-                    alt="Avatar">
+                <?php if (!empty($_SESSION['avatar_url'])): ?>
 
-            <?php else: ?>
+                    <img
+                        src="<?= BASE_URL . 'assets/images/avatar/' . $_SESSION['avatar_url'] ?>"
+                        alt="Avatar">
 
-                <img
-                    src="<?= BASE_URL ?>assets/images/avatar/avatar.png"
-                    alt="Avatar">
+                <?php else: ?>
 
-            <?php endif; ?>
+                    <img
+                        src="<?= BASE_URL ?>assets/images/avatar/avatar.png"
+                        alt="Avatar">
 
-            <div class="user-info">
-                <span class="name">
-                    <?= htmlspecialchars($_SESSION['username']) ?>
-                </span>
+                <?php endif; ?>
 
-                <small>Administrator</small>
+                <div class="user-info">
+                    <span class="name">
+                        <?= htmlspecialchars($_SESSION['username']) ?>
+                    </span>
+
+                    <small>Administrator</small>
+                </div>
+
+                <a href="logout.php" class="logout-btn">
+                    Đăng xuất
+                </a>
+
             </div>
-
-            <a href="logout.php" class="logout-btn">
-                Đăng xuất
-            </a>
 
         </div>
 
+        <!-- PROFILE -->
+        <?php require '../includes/profile.php'; ?>
+
+        <!-- FOOTER -->
+        <?php require '../includes/footer.php'; ?>
+
     </div>
 
-    <!-- PROFILE -->
-    <?php require '../includes/profile.php'; ?>
-
-    <!-- FOOTER -->
-    <?php require '../includes/footer.php'; ?>
-
-</div>
-
 </body>
+
 </html>

@@ -21,7 +21,9 @@ ul,li,a{list-style: none;}
 a {
     text-decoration: none;
 }
-
+button{
+    border: 0px;
+}
 :root {
     --while--00: #fff;
     --while--00--07: rgba(255, 255, 255, 0.7);
@@ -41,4 +43,6 @@ a {
     --text-main: #ffffff;
     --text-soft: #b7b7d1;
     --primary: #7B5CFF;
+      --border-color: rgba(255,255,255,.08);
+    --hover-bg: rgba(255,255,255,.04);
 }

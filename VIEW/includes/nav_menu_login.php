@@ -57,7 +57,24 @@ if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3) {
                 <span class="nav-label">Bảng xếp hạng</span>
             </a>
         </li>
-
+        <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3): ?>
+            <li>
+                <a href="<?= BASE_URL ?>page/product_manager.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 14H4V8h16v10z" />
+                    </svg>
+                    <span class="nav-label">Kho sản phẩm</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?= BASE_URL ?>page/revenue.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2C6.48 2 2 4.24 2 7v10c0 2.76 4.48 5 10 5s10-2.24 10-5V7c0-2.76-4.48-5-10-5zm0 2c4.42 0 8 .9 8 3s-3.58 3-8 3-8-.9-8-3 3.58-3 8-3zm0 16c-4.42 0-8-.9-8-3v-2.08C5.84 16.2 8.74 17 12 17s6.16-.8 8-2.08V17c0 2.1-3.58 3-8 3zm0-5c-4.42 0-8-.9-8-3V9.92C5.84 11.2 8.74 12 12 12s6.16-.8 8-2.08V12c0 2.1-3.58 3-8 3z" />
+                    </svg>
+                    <span class="nav-label">Doanh thu</span>
+                </a>
+            </li>
+        <?php endif; ?>
         <li>
             <a href="<?= BASE_URL ?>page/profile.php">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
@@ -67,6 +84,7 @@ if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3) {
                 <span class="nav-label">Hồ sơ cá nhân</span>
             </a>
         </li>
+
 
     </ul>
 

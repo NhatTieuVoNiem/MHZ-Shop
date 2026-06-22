@@ -1,4 +1,5 @@
 <?php
+
 /** @var int $currentPage */
 /** @var int $totalPages */
 

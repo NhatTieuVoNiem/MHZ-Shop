@@ -20,4 +20,3 @@ VALUES
 
 echo "Đã thêm dữ liệu mẫu thành công.";
 $conn->close();
-?>  

@@ -45,7 +45,7 @@ $fullName =
   <link rel="stylesheet" href="<?= BASE_URL ?>style/footer.css?v=<?= time() ?>" />
   <link rel="stylesheet" href="<?= BASE_URL ?>style/nav-menu.css?v=<?= time() ?>" />
   <link rel="stylesheet" href="<?= BASE_URL ?>style/profile.css?v=<?= time() ?>" />
-   <link rel="stylesheet" href="<?= BASE_URL ?>style/products.css?v=<?= time() ?>" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>style/products.css?v=<?= time() ?>" />
 </head>
 
 <body>

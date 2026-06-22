@@ -367,21 +367,21 @@ class Product
         return $stmt->execute();
     }
     // Tổng sản phẩm
-public function countAll()
-{
-    $sql = "
+    public function countAll()
+    {
+        $sql = "
         SELECT COUNT(*) total
         FROM products
         WHERE status = 1
     ";
 
-    return $this->conn->query($sql)->fetch_assoc()['total'];
-}
+        return $this->conn->query($sql)->fetch_assoc()['total'];
+    }
 
-// Top sản phẩm bán chạy
-public function getTopSellingProducts($limit = 5)
-{
-    $sql = "
+    // Top sản phẩm bán chạy
+    public function getTopSellingProducts($limit = 5)
+    {
+        $sql = "
         SELECT
             p.product_id,
             p.product_name,
@@ -404,10 +404,119 @@ public function getTopSellingProducts($limit = 5)
         LIMIT ?
     ";
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bind_param("i", $limit);
-    $stmt->execute();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
 
-    return $stmt->get_result();
-}
+        return $stmt->get_result();
+    }
+    public function countSellerProducts($accountId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT COUNT(*) total
+        FROM products
+        WHERE account_id = ?
+        AND status = 1
+    ");
+
+        $stmt->bind_param("i", $accountId);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc()['total'];
+    }
+    public function searchSellerProducts($accountId, $keyword)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT *
+        FROM products
+        WHERE account_id = ?
+        AND status = 1
+        AND product_name LIKE ?
+        ORDER BY created_at DESC
+    ");
+
+        $keyword = "%{$keyword}%";
+
+        $stmt->bind_param(
+            "is",
+            $accountId,
+            $keyword
+        );
+
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    public function countSellerViews($accountId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT COUNT(v.view_id) total
+        FROM product_views v
+
+        INNER JOIN products p
+            ON v.product_id = p.product_id
+
+        WHERE p.account_id = ?
+    ");
+
+        $stmt->bind_param("i", $accountId);
+
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc()['total'] ?? 0;
+    }
+    public function getSellerTopProducts($sellerId, $limit = 5)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT
+            p.product_name,
+            SUM(oi.quantity) total_sold,
+            SUM(oi.quantity * p.price) revenue
+
+        FROM products p
+
+        INNER JOIN order_items oi
+            ON p.product_id = oi.product_id
+
+        WHERE p.account_id = ?
+
+        GROUP BY p.product_id
+
+        ORDER BY total_sold DESC
+
+        LIMIT ?
+    ");
+
+        $stmt->bind_param("ii", $sellerId, $limit);
+        $stmt->execute();
+
+        return $stmt->get_result();
+    }
+    public function getSellerProductSaleStats($accountId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT
+            COUNT(DISTINCT p.product_id) total_products,
+
+            COUNT(
+                DISTINCT CASE
+                    WHEN oi.product_id IS NOT NULL
+                    THEN p.product_id
+                END
+            ) sold_products
+
+        FROM products p
+
+        LEFT JOIN order_items oi
+            ON p.product_id = oi.product_id
+
+        WHERE p.account_id = ?
+        AND p.status = 1
+    ");
+
+        $stmt->bind_param("i", $accountId);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc();
+    }
 }

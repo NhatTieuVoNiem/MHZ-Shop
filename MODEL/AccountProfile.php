@@ -43,6 +43,7 @@ class AccountProfile
         $stmt->bind_param("i", $profile_id);
         return $stmt->execute();
     }
+    // tìm theo mã ID
     public function findByAccountId($account_id)
     {
         $stmt = $this->conn->prepare("

@@ -7,5 +7,3 @@ $productModel = new Product($conn);
 
 // lấy NFT nổi bật
 $featuredNFT = $productModel->getFeaturedNFT();
-
-?>

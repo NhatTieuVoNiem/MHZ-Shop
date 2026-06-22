@@ -372,6 +372,7 @@ class Account
 
         return $stmt->get_result()->fetch_assoc();
     }
+    //lấy tt chi tiết liên quan đến tk
     public function getAccountById($accountId)
     {
         $sql = "
@@ -447,9 +448,9 @@ class Account
         return $this->conn->query($sql)->fetch_assoc()['total'];
     }
     // Khách hàng mới tháng này
-public function countNewCustomersThisMonth()
-{
-    $sql = "
+    public function countNewCustomersThisMonth()
+    {
+        $sql = "
         SELECT COUNT(*) total
         FROM accounts
         WHERE role_id = 3
@@ -457,12 +458,12 @@ public function countNewCustomersThisMonth()
         AND YEAR(created_at)=YEAR(CURDATE())
     ";
 
-    return $this->conn->query($sql)->fetch_assoc()['total'];
-}
-// Top khách hàng chi tiêu nhiều nhất
-public function getTopCustomers($limit = 5)
-{
-    $sql = "
+        return $this->conn->query($sql)->fetch_assoc()['total'];
+    }
+    // Top khách hàng chi tiêu nhiều nhất
+    public function getTopCustomers($limit = 5)
+    {
+        $sql = "
         SELECT
             a.account_id,
             a.username,
@@ -487,10 +488,10 @@ public function getTopCustomers($limit = 5)
         LIMIT ?
     ";
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bind_param("i", $limit);
-    $stmt->execute();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
 
-    return $stmt->get_result();
-}
+        return $stmt->get_result();
+    }
 }

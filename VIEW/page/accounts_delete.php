@@ -14,13 +14,11 @@ require_once("../../CONTROLLER/controller_account.php");
 
 $controller = new controller_account($conn);
 
-if(isset($_GET['id']))
-{
+if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];
 
     // Không cho admin tự xóa chính mình
-    if($id != $_SESSION['account_id'])
-    {
+    if ($id != $_SESSION['account_id']) {
         $controller->deleteAccount($id);
     }
 }

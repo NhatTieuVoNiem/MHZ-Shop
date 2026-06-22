@@ -45,12 +45,10 @@ if ($orderModel->delete($order_id)) {
 
     $_SESSION['success'] =
         "Đã xóa đơn hàng #ORD-" . $order_id;
-
 } else {
 
     $_SESSION['error'] =
         "Không thể xóa đơn hàng!";
-
 }
 
 header("Location: orders.php");

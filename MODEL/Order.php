@@ -319,4 +319,139 @@ class Order
 
         return $stmt->get_result()->fetch_assoc()['total'] ?? 0;
     }
+    public function countSellerOrders($sellerId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT COUNT(DISTINCT oi.order_id) total
+        FROM order_items oi
+        INNER JOIN products p
+            ON oi.product_id = p.product_id
+        WHERE p.account_id = ?
+    ");
+
+        $stmt->bind_param("i", $sellerId);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc()['total'];
+    }
+    public function getSellerRevenue($sellerId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT
+            COALESCE(
+                SUM(oi.quantity * p.price),
+                0
+            ) revenue
+        FROM order_items oi
+        INNER JOIN products p
+            ON oi.product_id = p.product_id
+        WHERE p.account_id = ?
+    ");
+
+        $stmt->bind_param("i", $sellerId);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc()['revenue'];
+    }
+    public function countSellerCustomers($sellerId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT COUNT(DISTINCT o.account_id) total
+        FROM orders o
+
+        INNER JOIN order_items oi
+            ON o.order_id = oi.order_id
+
+        INNER JOIN products p
+            ON oi.product_id = p.product_id
+
+        WHERE p.account_id = ?
+    ");
+
+        $stmt->bind_param("i", $sellerId);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc()['total'];
+    }
+    public function getRecentSellerOrders($sellerId, $limit = 5)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT
+            p.product_name,
+            a.username,
+            oi.quantity,
+            p.price,
+            o.created_at
+
+        FROM orders o
+
+        INNER JOIN accounts a
+            ON o.account_id = a.account_id
+
+        INNER JOIN order_items oi
+            ON o.order_id = oi.order_id
+
+        INNER JOIN products p
+            ON oi.product_id = p.product_id
+
+        WHERE p.account_id = ?
+
+        ORDER BY o.created_at DESC
+
+        LIMIT ?
+    ");
+
+        $stmt->bind_param("ii", $sellerId, $limit);
+        $stmt->execute();
+
+        return $stmt->get_result();
+    }
+    public function countSellerSoldProducts($sellerId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT COALESCE(SUM(oi.quantity),0) total
+        FROM order_items oi
+
+        INNER JOIN products p
+            ON oi.product_id = p.product_id
+
+        WHERE p.account_id = ?
+    ");
+
+        $stmt->bind_param("i", $sellerId);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc()['total'];
+    }
+    public function getSellerRevenueByMonth($sellerId)
+    {
+        $stmt = $this->conn->prepare("
+        SELECT
+            MONTH(o.created_at) month_num,
+
+            SUM(
+                oi.quantity * p.price
+            ) revenue
+
+        FROM orders o
+
+        INNER JOIN order_items oi
+            ON o.order_id = oi.order_id
+
+        INNER JOIN products p
+            ON oi.product_id = p.product_id
+
+        WHERE p.account_id = ?
+        AND YEAR(o.created_at)=YEAR(CURDATE())
+
+        GROUP BY MONTH(o.created_at)
+
+        ORDER BY month_num
+    ");
+
+        $stmt->bind_param("i", $sellerId);
+        $stmt->execute();
+
+        return $stmt->get_result();
+    }
 }

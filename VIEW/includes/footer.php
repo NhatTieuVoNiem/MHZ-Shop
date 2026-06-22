@@ -16,17 +16,17 @@
             <h3>Theo dõi</h3>
             <div class="socials">
                 <a href="https://www.facebook.com/share/1DkmSp7pTC/" target="_blank">
-                    <i class="fa-brands fa-facebook"></i> 
+                    <i class="fa-brands fa-facebook"></i>
                     <span class="text"> Facebook</span>
                 </a>
 
                 <a href="https://github.com/NhatTieuVoNiem" target="_blank">
-                    <i class="fa-brands fa-github"></i> 
+                    <i class="fa-brands fa-github"></i>
                     <span class="text"> GitHub</span>
                 </a>
 
                 <a href="https://www.tiktok.com/@user6tfpf7btwx?_r=1&_t=ZS-963aux6PIlp" target="_blank">
-                    <i class="fa-brands fa-tiktok"></i> 
+                    <i class="fa-brands fa-tiktok"></i>
                     <span class="text"> TikTok</span>
                 </a>
             </div>

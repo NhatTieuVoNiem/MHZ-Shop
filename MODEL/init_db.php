@@ -140,4 +140,3 @@ foreach ($tables as $sql) {
 }
 
 $conn->close();
-?>

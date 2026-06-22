@@ -22,7 +22,7 @@
         <span class="nav-label">Sản phẩm</span>
       </a>
     </li>
-<!-- 
+    <!-- 
     <li role="none">
       <a href="<?= BASE_URL ?>page/cart.php" role="menuitem" aria-label="Giỏ hàng" class="login-popup">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">

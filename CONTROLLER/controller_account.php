@@ -10,6 +10,7 @@ class controller_account
     private $accountModel;
     private $profileModel;
 
+    //Khởi tạo controller
     public function __construct($conn)
     {
         $this->conn = $conn;
@@ -18,6 +19,7 @@ class controller_account
         $this->profileModel = new AccountProfile($conn);
     }
 
+    //Lấy dữ liệu thống kê cho Dashboard
     public function dashboardData()
     {
         return [
@@ -35,31 +37,30 @@ class controller_account
         ];
     }
 
+    //Xóa mềm tài khoản
     public function deleteAccount($accountId)
     {
         return $this->accountModel->delete($accountId);
     }
 
+    //Khôi phục tài khoản đã bị xóa
     public function restoreAccount($accountId)
     {
         return $this->accountModel->restore($accountId);
     }
 
+    //Lấy danh sách tài khoản đã xóa
     public function getDeletedAccounts()
     {
         return $this->accountModel->getDeletedAccounts();
     }
 
+    // thông tin chi tiết tài khoản
     public function getAccountDetail($account_id)
     {
         $account = $this->accountModel->findById($account_id);
 
-        $stmt = $this->conn->prepare("
-            SELECT *
-            FROM account_profiles
-            WHERE account_id = ?
-            LIMIT 1
-        ");
+        $stmt = $this->conn->prepare("SELECT * FROM account_profiles WHERE account_id = ? LIMIT 1");
 
         $stmt->bind_param("i", $account_id);
         $stmt->execute();
@@ -72,41 +73,36 @@ class controller_account
         ];
     }
 
+    //Cập nhật thông tin tài khoản
+  
     public function updateAccount()
     {
-        if (
-            !isset($_POST['action']) ||
-            $_POST['action'] !== 'update'
-        ) {
+        // Kiểm tra request cập nhật
+        if (!isset($_POST['action']) || $_POST['action'] !== 'update' ) {
             return;
         }
 
+        // ===== Thông tin tài khoản =====
         $account_id = (int)$_POST['account_id'];
         $profile_id = (int)$_POST['profile_id'];
-
         $username = $_POST['username'];
         $email = $_POST['email'];
         $role_id = (int)$_POST['role_id'];
 
+        // ===== Thông tin hồ sơ =====
         $last_name = $_POST['last_name'];
         $middle_name = $_POST['middle_name'];
         $first_name = $_POST['first_name'];
-
-        $gender_id = !empty($_POST['gender_id'])
-            ? (int)$_POST['gender_id']
-            : null;
-
-        $date_of_birth = !empty($_POST['date_of_birth'])
-            ? $_POST['date_of_birth']
-            : null;
-
+        $gender_id = !empty($_POST['gender_id'])? (int)$_POST['gender_id'] : null;
+        $date_of_birth = !empty($_POST['date_of_birth']) ? $_POST['date_of_birth'] : null;
         $phone = $_POST['phone'];
         $bio = $_POST['bio'];
 
+        // Lấy mật khẩu hiện tại
         $account = $this->accountModel->findById($account_id);
-
         $password_hash = $account['password_hash'];
 
+        // Nếu nhập mật khẩu mới thì mã hóa lại
         if (!empty($_POST['password'])) {
             $password_hash = password_hash(
                 $_POST['password'],
@@ -114,31 +110,22 @@ class controller_account
             );
         }
 
-        $this->accountModel->update(
-            $account_id,
-            $username,
-            $email,
-            $password_hash,
-            $role_id
-        );
+        //Cập nhật bảng accounts
+        $this->accountModel->update($account_id, $username, $email, $password_hash, $role_id);
 
-        $this->profileModel->update(
-            $profile_id,
-            $last_name,
-            $middle_name,
-            $first_name,
-            $gender_id,
-            $date_of_birth,
-            $bio,
-            $phone
-        );
+        //Cập nhật bảng account_profiles
+        $this->profileModel->update($profile_id, $last_name, $middle_name, $first_name, $gender_id, $date_of_birth, $bio, $phone);
 
         return true;
     }
+
+    //Lấy tài khoản theo ID
     public function getAccountById($accountId)
     {
         return $this->accountModel->getAccountById($accountId);
     }
+
+    //Lấy danh sách tài khoản có phân trang
     public function getAccountsPagination($page = 1, $limit = 20)
     {
         $offset = ($page - 1) * $limit;
@@ -157,26 +144,18 @@ class controller_account
 
 $controller = new controller_account($conn);
 
-if (
-    isset($_GET['action']) &&
-    $_GET['action'] == 'detail' &&
-    isset($_GET['id'])
-) {
-
+// API LẤY CHI TIẾT TÀI KHOẢN (AJAX)
+if (isset($_GET['action']) && $_GET['action'] == 'detail' && isset($_GET['id'])) {
     $id = (int)$_GET['id'];
-
     $detail = $controller->getAccountDetail($id);
-
     header('Content-Type: application/json');
     echo json_encode($detail);
     exit;
 }
-if (
-    isset($_POST['action']) &&
-    $_POST['action'] === 'update'
-) {
-    $controller->updateAccount();
 
+//XỬ LÝ CẬP NHẬT TÀI KHOẢN
+if (isset($_POST['action']) && $_POST['action'] === 'update') {
+    $controller->updateAccount();
     header("Location: ../VIEW/page/accounts.php");
     exit;
 }

@@ -1,65 +1,71 @@
 <?php
+
 /**
  * Class ProductLike
  * Model quản lý bảng 'product_likes'
  */
-class ProductLike {
+class ProductLike
+{
     private mysqli $conn;
     private string $table = "product_likes";
 
-    public function __construct(mysqli $db) {
+    public function __construct(mysqli $db)
+    {
         $this->conn = $db;
     }
 
     // Lấy tất cả bản ghi trong bảng product_likes
-    public function getAll() {
+    public function getAll()
+    {
         $sql = "SELECT * FROM {$this->table}";
         return $this->conn->query($sql);
     }
 
     // Tạo mới một like cho sản phẩm
-    public function create(int $account_id, int $product_id) {
+    public function create(int $account_id, int $product_id)
+    {
         $stmt = $this->conn->prepare("INSERT INTO {$this->table} (account_id, product_id) VALUES (?, ?)");
         $stmt->bind_param("ii", $account_id, $product_id);
         return $stmt->execute();
     }
 
     // Cập nhật like theo ID (ví dụ đổi account hoặc product liên kết)
-    public function update(int $like_id, int $account_id, int $product_id) {
+    public function update(int $like_id, int $account_id, int $product_id)
+    {
         $stmt = $this->conn->prepare("UPDATE {$this->table} SET account_id=?, product_id=? WHERE like_id=?");
         $stmt->bind_param("iii", $account_id, $product_id, $like_id);
         return $stmt->execute();
     }
 
     // Xóa like theo ID
-    public function delete(int $like_id) {
+    public function delete(int $like_id)
+    {
         $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE like_id=?");
         $stmt->bind_param("i", $like_id);
         return $stmt->execute();
     }
     public function checkLike($account_id, $product_id)
-{
-    $stmt = $this->conn->prepare("
+    {
+        $stmt = $this->conn->prepare("
         SELECT * FROM {$this->table}
         WHERE account_id=? AND product_id=?
     ");
 
-    $stmt->bind_param("ii", $account_id, $product_id);
-    $stmt->execute();
+        $stmt->bind_param("ii", $account_id, $product_id);
+        $stmt->execute();
 
-    return $stmt->get_result()->fetch_assoc();
-}
+        return $stmt->get_result()->fetch_assoc();
+    }
 
-public function removeLike($account_id, $product_id)
-{
-    $stmt = $this->conn->prepare("
+    public function removeLike($account_id, $product_id)
+    {
+        $stmt = $this->conn->prepare("
         DELETE FROM {$this->table}
         WHERE account_id=? AND product_id=?
     ");
 
-    $stmt->bind_param("ii", $account_id, $product_id);
+        $stmt->bind_param("ii", $account_id, $product_id);
 
-    return $stmt->execute();
+        return $stmt->execute();
+    }
 }
-}
-?>

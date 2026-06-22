@@ -416,7 +416,12 @@ $topCreators = $accountModel->getTopCreators(5);
     </div>
 
   </div>
-
+  <script src="<?= BASE_URL ?>js/theme.js?v=<?= time() ?>"></script>
+  <script src="<?= BASE_URL ?>js/toggle.js?v=<?= time() ?>"></script>
+  <?php if (!isset($_SESSION['account_id'])): ?>
+    <script src="<?= BASE_URL ?>js/clickLogin.js?v=<?= time() ?>"></script>
+  <?php endif; ?>
+  <script src="<?= BASE_URL ?>js/clickCheckOut.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

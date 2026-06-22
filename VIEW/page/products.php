@@ -114,13 +114,13 @@ if ($mode === 'category') {
 
 <body>
   <div class="wrapper">
-<?php
-if (isset($_SESSION['account_id'])) {
-    require '../includes/nav_menu_login.php';
-} else {
-    require '../includes/nav-menu.php';
-}
-?>
+    <?php
+    if (isset($_SESSION['account_id'])) {
+      require '../includes/nav_menu_login.php';
+    } else {
+      require '../includes/nav-menu.php';
+    }
+    ?>
 
     <div class="content">
       <div class="auth-modal">

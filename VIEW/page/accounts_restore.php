@@ -15,8 +15,7 @@ require_once("../../CONTROLLER/controller_account.php");
 
 $controller = new controller_account($conn);
 
-if(isset($_GET['id']))
-{
+if (isset($_GET['id'])) {
     $controller->restoreAccount((int)$_GET['id']);
 }
 
